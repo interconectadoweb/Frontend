@@ -1,0 +1,14 @@
+/* Reset base para evitar conflictos */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #030014;
+}
+
+#root {
+  min-height: 100vh;
+}
