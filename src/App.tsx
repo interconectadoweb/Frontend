@@ -751,7 +751,7 @@ function App() {
                     boxShadow: '0 0 12px var(--green)', 
                     animation: 'pulse 2s infinite' 
                   }} />
-                  <span style={{ color: 'var(--white-pure)' }}>🇪🇸 Agencia Digital Premium — España & LATAM</span>
+                  <span style={{ color: 'var(--white-pure)' }}>🇪🇸 Agencia Digital Premium en España, Expertos en desarrollo.</span>
                 </div>
               </div>
 
@@ -1139,7 +1139,7 @@ function App() {
                     >
                       {loading === s.id ? (
                         <><span className="spinner" style={{ width: '18px', height: '18px', borderWidth: '2px' }} /> Procesando...</>
-                      ) : (<>🚀 Contratar</>)}
+                      ) : (<>🚀 Iniciar Proyecto Ahora 🚀</>)}
                     </button>
                     
                     <a 
@@ -1147,7 +1147,7 @@ function App() {
                       target="_blank" rel="noopener noreferrer"
                       className="btn btn-secondary btn-block"
                       style={{ fontSize: '0.88rem', padding: '0.65rem', textDecoration: 'none' }}
-                    >💬 Consultar</a>
+                    >💬 Consultar con un Experto</a>
                   </div>
 
                   <p style={{ textAlign: 'center', fontSize: '0.68rem', color: 'var(--white-muted)', marginTop: '0.8rem', fontWeight: 600 }}>
