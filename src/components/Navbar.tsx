@@ -32,10 +32,12 @@ export default function Navbar() {
     bgDark: '#030014'  
   };
 
+  // Estrellas con resplandor neón tenue
   const starGlowStyle = {
     color: colors.yellow,
     fontSize: '1.2rem',
-    filter: 'drop-shadow(0 0 4px rgba(255, 193, 7, 0.5))' 
+    filter: 'drop-shadow(0 0 4px rgba(255, 193, 7, 0.6))',
+    textShadow: '0 0 8px rgba(255, 193, 7, 0.3)'
   };
 
   return (
@@ -50,7 +52,7 @@ export default function Navbar() {
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       }}>
         
-        {/* -- BLOQUE IZQUIERDO: Logo -- */}
+        {/* -- BLOQUE IZQUIERDO: Logo (1.2rem) -- */}
         <div style={{ flex: '1 1 0%', display: 'flex', justifyContent: 'flex-start' }}>
           <a
             href="#inicio"
@@ -77,7 +79,7 @@ export default function Navbar() {
           </a>
         </div>
 
-        {/* -- BLOQUE CENTRAL: Enlaces de navegación -- */}
+        {/* -- BLOQUE CENTRAL: Enlaces -- */}
         <div style={{
           flex: '0 1 auto', 
           display: 'flex', justifyContent: 'center', alignItems: 'center',
@@ -105,29 +107,29 @@ export default function Navbar() {
         {/* -- BLOQUE DERECHO: Acciones -- */}
         <div style={{ flex: '1 1 0%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '1rem' }}>
           
-          {/* Botón: Iniciar Propuesta - AHORA IGUAL AL TAMAÑO DEL LOGO */}
+          {/* Botón: Iniciar Propuesta - Redirige a Contacto y es un punto más pequeño (1.1rem) */}
           <a
             href="#contacto"
             onClick={e => { e.preventDefault(); scrollTo('#contacto'); }}
             style={{
-              padding: '0.4rem 1rem', // Mismo padding que la caja del logo
-              borderRadius: '12px', // Bordes sutiles iguales al logo
+              padding: '0.4rem 0.9rem',
+              borderRadius: '12px',
               background: 'rgba(15, 23, 42, 0.4)',
               textDecoration: 'none', 
-              fontWeight: 800, // Mismo peso que el logo
-              fontSize: '1.2rem', // Mismo tamaño de fuente que el logo
+              fontWeight: 800, 
+              fontSize: '1.1rem', 
               transition: 'all 0.3s ease',
               border: `1px solid rgba(255, 193, 7, 0.25)`, 
-              display: 'flex', alignItems: 'center', gap: '0.5rem'
+              display: 'flex', alignItems: 'center', gap: '0.4rem'
             }}
             className="nav-cta-desktop logo-button-hover"
           >
-            <span style={starGlowStyle}>★</span>
+            <span style={{...starGlowStyle, fontSize: '1.1rem'}}>★</span>
             <span style={{ fontFamily: 'system-ui, sans-serif' }}>
               <span style={{ color: colors.yellow }}>Iniciar</span>{' '}
               <span style={{ color: colors.cyan }}>Propuesta</span>
             </span>
-            <span style={starGlowStyle}>★</span>
+            <span style={{...starGlowStyle, fontSize: '1.1rem'}}>★</span>
           </a>
 
           {/* Botón Hamburger (Móvil) */}
@@ -171,8 +173,8 @@ export default function Navbar() {
           ))}
           
           <a
-            href={`https://wa.me/${SEO_CONFIG?.whatsapp || ''}`} 
-            target="_blank" rel="noopener noreferrer"
+            href="#contacto"
+            onClick={e => { e.preventDefault(); scrollTo('#contacto'); }}
             style={{
               marginTop: '1rem', padding: '0.8rem 1.5rem',
               background: 'rgba(15, 23, 42, 0.8)',
@@ -213,9 +215,9 @@ export default function Navbar() {
           transform: translateY(-2px);
         }
         .logo-button-hover:hover {
-          transform: scale(1.05);
+          transform: scale(1.03);
           background: rgba(15, 23, 42, 0.7) !important;
-          box-shadow: 0 0 15px rgba(255, 193, 7, 0.25) !important;
+          box-shadow: 0 0 15px rgba(255, 193, 7, 0.2) !important;
         }
         @keyframes fadeIn {
           from { opacity: 0; }
