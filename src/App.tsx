@@ -71,7 +71,7 @@ const updateFavicon = () => {
   let link = document.querySelector("link[rel*='icon']") as HTMLLinkElement;
   if (!link) { link = document.createElement('link'); link.rel = 'icon'; document.head.appendChild(link); }
   link.href = url;
-  document.title = '⭐ InterConectadosWeb - Agencia Digital Premium';
+  document.title = 'InterConectadosWeb - Agencia Digital Premium en España';
 };
 
 // ============================================
@@ -1360,7 +1360,7 @@ function App() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
                 {[
                   { icon: '📧', label: 'Email', value: SEO_CONFIG.email, href: `mailto:${SEO_CONFIG.email}`, color: 'var(--accent-bright)' },
-                  { icon: '💬', label: 'WhatsApp', value: '+57 301 436 7948', href: `https://wa.me/${SEO_CONFIG.whatsapp}`, target: '_blank', color: '#25D366' },
+                  { icon: '💬', label: 'WhatsApp', value: 'Hablar con un Experto', href: `https://wa.me/${SEO_CONFIG.whatsapp}`, target: '_blank', color: '#25D366' },
                   { icon: '📍', label: 'Ubicación', value: SEO_CONFIG.address, color: 'var(--accent-3-bright)' },
                 ].map((m, i) => (
                   <div key={i} onClick={() => m.href && (m.target ? window.open(m.href, '_blank') : (location.href = m.href))}
