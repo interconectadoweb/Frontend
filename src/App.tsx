@@ -9,45 +9,32 @@ import {
 } from './data/content';
 
 // ============================================
-// TRADUCCIÓN AUTOMÁTICA CORREGIDA
-// Solo traduce si el navegador está en inglés
-// Sin flash ni cambio visible
+// TRADUCCIÓN AUTOMÁTICA - ESPAÑOL POR DEFECTO
 // ============================================
 const AutoTranslator = () => {
   useEffect(() => {
-    // Obtener idioma del navegador
     const browserLang = (navigator.language || navigator.languages?.[0] || 'es').toLowerCase();
-    
-    // Solo activar si el idioma principal es inglés
     const isEnglish = browserLang.startsWith('en');
     
-    // Si NO es inglés, no hacer nada (español por defecto)
     if (!isEnglish) {
-      // Limpiar cualquier cookie previa de traducción
       document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
       return;
     }
 
-    // Solo para usuarios en inglés: configurar traducción
     const setupTranslation = () => {
-      // Establecer cookie de traducción
       document.cookie = `googtrans=/es/en; path=/; max-age=31536000`;
       
-      // Verificar si ya existe el elemento
       if (document.getElementById('google_translate_element')) return;
       
-      // Crear contenedor oculto
       const div = document.createElement('div');
       div.id = 'google_translate_element';
       div.style.cssText = 'display:none!important;visibility:hidden!important;position:absolute!important;left:-9999px!important;';
       document.body.insertBefore(div, document.body.firstChild);
 
-      // Cargar script de Google Translate
       const script = document.createElement('script');
       script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateInit';
       script.async = true;
       
-      // Función de inicialización
       (window as any).googleTranslateInit = () => {
         try {
           new (window as any).google.translate.TranslateElement({
@@ -64,7 +51,6 @@ const AutoTranslator = () => {
       document.head.appendChild(script);
     };
 
-    // Ejecutar después de que la página esté completamente cargada
     if (document.readyState === 'complete') {
       setTimeout(setupTranslation, 100);
     } else {
@@ -89,38 +75,46 @@ const updateFavicon = () => {
 };
 
 // ============================================
-// ESTILOS GLOBALES
+// ESTILOS GLOBALES - VERSIÓN FINAL PULIDA
 // ============================================
 const globalStyles = `
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700;800&display=swap');
 
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
   
   :root {
+    /* FONDOS */
     --bg: #0f1d32;
     --bg-dark: #0a1525;
-    --bg-card: rgba(20, 40, 70, 0.75);
-    --bg-glass: rgba(30, 55, 95, 0.55);
-    --border: rgba(120, 170, 255, 0.18);
-    --border-hover: rgba(120, 190, 255, 0.45);
-    --accent: #4f93ff;
-    --accent-bright: #60a5ff;
-    --accent-2: #22d3ee;
-    --accent-2-bright: #38e8ff;
-    --accent-3: #a78bfa;
-    --accent-3-bright: #b8a4ff;
-    --green: #22c55e;
-    --green-bright: #34d369;
-    --gold: #fbbf24;
-    --gold-bright: #fcd34d;
-    --white: #ffffff;
-    --white-95: rgba(255,255,255,0.95);
-    --white-90: rgba(255,255,255,0.90);
-    --white-80: rgba(255,255,255,0.80);
-    --white-70: rgba(255,255,255,0.70);
-    --white-60: rgba(255,255,255,0.60);
-    --white-50: rgba(255,255,255,0.50);
-    --white-40: rgba(255,255,255,0.40);
+    --bg-card: rgba(18, 38, 65, 0.85);
+    --bg-glass: rgba(25, 50, 85, 0.65);
+    
+    /* BORDES */
+    --border: rgba(100, 160, 255, 0.2);
+    --border-hover: rgba(100, 180, 255, 0.5);
+    
+    /* COLORES PRINCIPALES - PUROS Y VIBRANTES */
+    --accent: #5B9FFF;
+    --accent-bright: #7CB3FF;
+    --accent-2: #00E5FF;
+    --accent-2-bright: #40EFFF;
+    --accent-3: #B794F6;
+    --accent-3-bright: #D0B4FF;
+    --green: #00E676;
+    --green-bright: #4AFF91;
+    --gold: #FFD54F;
+    --gold-bright: #FFE57F;
+    --red: #FF5252;
+    
+    /* TEXTOS - BLANCOS PUROS, SIN GRISES */
+    --white: #FFFFFF;
+    --white-pure: #FFFFFF;
+    --white-high: rgba(255, 255, 255, 0.95);
+    --white-medium: rgba(255, 255, 255, 0.85);
+    --white-soft: rgba(255, 255, 255, 0.75);
+    --white-muted: rgba(255, 255, 255, 0.6);
+    
+    /* ANIMACIONES */
     --ease: cubic-bezier(0.4, 0, 0.2, 1);
     --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
     --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -134,26 +128,68 @@ const globalStyles = `
   }
 
   body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
     background: var(--bg);
     color: var(--white);
     overflow-x: hidden;
-    line-height: 1.65;
+    line-height: 1.7;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    font-feature-settings: 'kern' 1, 'liga' 1;
+    letter-spacing: 0.01em;
     overscroll-behavior-y: none;
     top: 0 !important;
   }
 
-  /* FIX NAVBAR X DUPLICADA */
-  nav button svg:not(:first-child),
-  .navbar-toggle svg:nth-child(2),
-  .hamburger svg:not(:first-child) {
+  /* ═══════════════════════════════════════════════════════════════
+     ELIMINAR X DUPLICADA DEL MENÚ MÓVIL - REGLAS ULTRA ESPECÍFICAS
+     ═══════════════════════════════════════════════════════════════ */
+  
+  /* Ocultar cualquier X o botón de cierre duplicado en navbar */
+  nav button[aria-label*="close"] svg,
+  nav button[aria-label*="cerrar"] svg,
+  nav button[aria-label*="Close"] svg,
+  nav button[aria-label*="Cerrar"] svg,
+  nav [class*="close"] svg,
+  nav [class*="Close"] svg,
+  nav button svg.close-icon,
+  nav button svg[class*="close"],
+  nav button svg[class*="x-"],
+  nav button > svg:not(:only-child),
+  nav button > svg + svg,
+  nav button svg:nth-child(2),
+  nav button svg:last-child:not(:first-child),
+  .navbar button svg:not(:first-child),
+  .navbar-toggle svg:not(:first-child),
+  .mobile-menu-toggle svg:not(:first-child),
+  .hamburger svg:not(:first-child),
+  .menu-button svg:not(:first-child),
+  [class*="hamburger"] svg:not(:first-child),
+  [class*="mobile-menu"] button svg:not(:first-child),
+  header button svg:not(:first-child),
+  nav > div button svg:not(:first-child),
+  nav button span:not(:first-child),
+  .nav-toggle svg:not(:first-child) {
     display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    position: absolute !important;
+    pointer-events: none !important;
   }
 
-  /* OCULTAR GOOGLE TRANSLATE UI */
+  /* Asegurar que solo se muestre el primer SVG (hamburguesa) */
+  nav button svg:first-child,
+  .navbar button svg:first-child,
+  .hamburger svg:first-child {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  /* Ocultar Google Translate UI */
   .goog-te-banner-frame,
   .goog-te-balloon-frame,
   .goog-tooltip,
@@ -168,9 +204,7 @@ const globalStyles = `
     display: none !important;
     visibility: hidden !important;
     height: 0 !important;
-    width: 0 !important;
     opacity: 0 !important;
-    pointer-events: none !important;
   }
 
   .goog-text-highlight {
@@ -178,12 +212,14 @@ const globalStyles = `
     box-shadow: none !important;
   }
 
+  /* GPU Acceleration */
   .gpu-accelerated {
     will-change: transform, opacity;
     transform: translate3d(0, 0, 0);
     backface-visibility: hidden;
   }
 
+  /* Mobile optimizations */
   @media (max-width: 768px) {
     * { -webkit-tap-highlight-color: transparent; }
     body {
@@ -197,14 +233,15 @@ const globalStyles = `
     }
   }
 
+  /* Background effects */
   body::before {
     content: '';
     position: fixed;
     inset: 0;
     background: 
-      radial-gradient(ellipse 120% 90% at 50% -20%, rgba(79,147,255,0.15), transparent 60%),
-      radial-gradient(ellipse 90% 70% at 100% 100%, rgba(167,139,250,0.1), transparent 50%),
-      radial-gradient(ellipse 70% 60% at 0% 85%, rgba(34,211,238,0.08), transparent 50%);
+      radial-gradient(ellipse 120% 90% at 50% -20%, rgba(91, 159, 255, 0.18), transparent 60%),
+      radial-gradient(ellipse 90% 70% at 100% 100%, rgba(183, 148, 246, 0.12), transparent 50%),
+      radial-gradient(ellipse 70% 60% at 0% 85%, rgba(0, 229, 255, 0.1), transparent 50%);
     pointer-events: none;
     z-index: 0;
   }
@@ -214,6 +251,7 @@ const globalStyles = `
   ::-webkit-scrollbar-track { background: var(--bg-dark); }
   ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--accent), var(--accent-3)); border-radius: 4px; }
 
+  /* ═══════════════ ANIMACIONES ═══════════════ */
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   @keyframes fadeUp { from { opacity: 0; transform: translate3d(0, 30px, 0); } to { opacity: 1; transform: translate3d(0, 0, 0); } }
   @keyframes float { 0%, 100% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(0, -12px, 0); } }
@@ -234,17 +272,19 @@ const globalStyles = `
   @keyframes bounceIn { 0% { opacity: 0; transform: scale(0.3); } 50% { transform: scale(1.05); } 100% { opacity: 1; transform: scale(1); } }
   @keyframes breathe { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.03); opacity: 1; } }
 
+  /* ═══════════════ GLASS EFFECT ═══════════════ */
   .glass {
     background: var(--bg-glass);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
     border: 1px solid var(--border);
   }
 
+  /* ═══════════════ CARDS ═══════════════ */
   .card {
     background: var(--bg-card);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
     border: 1px solid var(--border);
     border-radius: 18px;
     transition: all 0.4s var(--ease-smooth);
@@ -254,9 +294,10 @@ const globalStyles = `
   .card:hover {
     border-color: var(--border-hover);
     transform: translate3d(0, -6px, 0);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.3), 0 0 30px rgba(79,147,255,0.1);
+    box-shadow: 0 22px 55px rgba(0, 0, 0, 0.35), 0 0 35px rgba(91, 159, 255, 0.12);
   }
 
+  /* ═══════════════ GRADIENT TEXT ═══════════════ */
   .gradient-text {
     background: linear-gradient(135deg, var(--accent-bright), var(--accent-2-bright), var(--accent-3-bright));
     background-size: 200% 200%;
@@ -264,16 +305,18 @@ const globalStyles = `
     -webkit-text-fill-color: transparent;
     background-clip: text;
     animation: gradientFlow 4s ease infinite;
+    font-weight: 700;
   }
 
+  /* ═══════════════ BOTONES ═══════════════ */
   .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
-    font-size: 0.9rem;
-    font-weight: 600;
+    padding: 0.8rem 1.6rem;
+    font-size: 0.92rem;
+    font-weight: 700;
     border-radius: 12px;
     cursor: pointer;
     border: none;
@@ -282,6 +325,7 @@ const globalStyles = `
     font-family: 'Inter', sans-serif;
     position: relative;
     overflow: hidden;
+    letter-spacing: 0.02em;
   }
 
   .btn::before {
@@ -297,67 +341,76 @@ const globalStyles = `
 
   .btn-primary {
     background: linear-gradient(135deg, var(--accent), var(--accent-3));
-    color: white;
-    box-shadow: 0 6px 25px rgba(79,147,255,0.4);
+    color: var(--white-pure);
+    box-shadow: 0 6px 28px rgba(91, 159, 255, 0.45);
   }
 
   .btn-primary:hover {
     transform: translate3d(0, -3px, 0) scale(1.02);
-    box-shadow: 0 10px 35px rgba(79,147,255,0.5);
+    box-shadow: 0 12px 40px rgba(91, 159, 255, 0.55);
   }
 
   .btn-secondary {
     background: var(--bg-glass);
-    backdrop-filter: blur(10px);
-    border: 1.5px solid var(--border);
-    color: white;
+    backdrop-filter: blur(12px);
+    border: 2px solid var(--border);
+    color: var(--white-pure);
   }
 
   .btn-secondary:hover {
-    background: rgba(79,147,255,0.15);
+    background: rgba(91, 159, 255, 0.18);
     border-color: var(--accent);
     transform: translate3d(0, -2px, 0);
+    box-shadow: 0 8px 28px rgba(91, 159, 255, 0.2);
   }
 
-  .btn-lg { padding: 0.9rem 1.8rem; font-size: 0.95rem; }
-  .btn-sm { padding: 0.5rem 1rem; font-size: 0.8rem; }
+  .btn-lg { padding: 0.95rem 1.9rem; font-size: 0.98rem; }
+  .btn-sm { padding: 0.55rem 1.1rem; font-size: 0.82rem; }
   .btn-block { width: 100%; }
 
+  /* ═══════════════ SECCIONES ═══════════════ */
   .section { padding: 4.5rem 0; position: relative; z-index: 1; }
   .container { max-width: 1280px; margin: 0 auto; padding: 0 1.25rem; }
 
   .section-header { text-align: center; margin-bottom: 2.5rem; }
+  
   .section-tag {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.45rem 1rem;
+    padding: 0.5rem 1.1rem;
     background: var(--bg-glass);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
     border: 1px solid var(--border);
     border-radius: 100px;
-    font-size: 0.7rem;
+    font-size: 0.72rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
+    letter-spacing: 2px;
     color: var(--accent-2-bright);
     margin-bottom: 1rem;
   }
+  
   .section-title {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(1.5rem, 4vw, 2.4rem);
-    font-weight: 700;
+    font-size: clamp(1.6rem, 4.5vw, 2.5rem);
+    font-weight: 800;
     line-height: 1.15;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.8rem;
+    color: var(--white-pure);
+    letter-spacing: -0.02em;
   }
+  
   .section-sub {
-    font-size: 0.95rem;
-    color: var(--white-70);
-    max-width: 550px;
+    font-size: 1rem;
+    color: var(--white-medium);
+    max-width: 560px;
     margin: 0 auto;
-    line-height: 1.7;
+    line-height: 1.75;
+    font-weight: 500;
   }
 
+  /* ═══════════════ GRIDS ═══════════════ */
   .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
   .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
   .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
@@ -373,10 +426,11 @@ const globalStyles = `
     .section { padding: 3rem 0; }
   }
 
+  /* ═══════════════ PRELOADER ═══════════════ */
   .preloader {
     position: fixed;
     inset: 0;
-    background: var(--bg-dark);
+    background: linear-gradient(135deg, var(--bg-dark), var(--bg));
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -386,20 +440,50 @@ const globalStyles = `
   }
 
   .spinner {
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
     border: 3px solid var(--border);
     border-top-color: var(--accent);
     border-radius: 50%;
     animation: spin 0.7s linear infinite;
   }
 
+  /* ═══════════════ HOVER EFFECTS ═══════════════ */
   .hover-lift { transition: transform 0.35s var(--ease-spring); }
   .hover-lift:hover { transform: translate3d(0, -5px, 0); }
 
   .interactive { transition: all 0.3s var(--ease-spring); cursor: pointer; }
   .interactive:hover { transform: scale(1.03); }
   .interactive:active { transform: scale(0.97); }
+
+  /* ═══════════════ TIPOGRAFÍA MEJORADA ═══════════════ */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    color: var(--white-pure);
+    letter-spacing: -0.01em;
+  }
+
+  p {
+    color: var(--white-medium);
+    font-weight: 500;
+  }
+
+  strong, b {
+    font-weight: 700;
+    color: var(--white-pure);
+  }
+
+  /* Links elegantes */
+  a {
+    color: var(--accent-bright);
+    text-decoration: none;
+    transition: color 0.25s ease;
+  }
+
+  a:hover {
+    color: var(--accent-2-bright);
+  }
 `;
 
 // ============================================
@@ -419,22 +503,22 @@ const NeonStar = ({ size = 14 }: { size?: number }) => (
 );
 
 const Logo = ({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) => {
-  const s = { sm: { star: 12, text: '0.75rem' }, md: { star: 14, text: '0.85rem' }, lg: { star: 18, text: '1.1rem' } }[size];
+  const s = { sm: { star: 12, text: '0.78rem' }, md: { star: 14, text: '0.88rem' }, lg: { star: 18, text: '1.15rem' } }[size];
   return (
-    <div className="glass interactive" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.45rem 0.9rem', borderRadius: '10px' }}>
+    <div className="glass interactive" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', padding: '0.5rem 1rem', borderRadius: '12px' }}>
       <NeonStar size={s.star} />
-      <span style={{ fontFamily: 'Space Grotesk', fontSize: s.text, fontWeight: 700 }}>
+      <span style={{ fontFamily: 'Space Grotesk', fontSize: s.text, fontWeight: 700, letterSpacing: '-0.01em' }}>
         <span style={{ background: 'linear-gradient(135deg, #FFD700, #FF8C00)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Inter</span>
         <span style={{ color: 'var(--accent-2-bright)' }}>Conectados</span>
         <span style={{ color: 'var(--green-bright)' }}>Web</span>
-        <span style={{ color: 'var(--white-40)', fontWeight: 400, fontSize: '0.8em' }}>.es</span>
+        <span style={{ color: 'var(--white-muted)', fontWeight: 500, fontSize: '0.85em' }}>.es</span>
       </span>
       <NeonStar size={s.star} />
     </div>
   );
 };
 
-// NUEVO LOGO WHATSAPP OFICIAL
+// Logo WhatsApp Oficial
 const WhatsAppLogo = () => (
   <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path fillRule="evenodd" clipRule="evenodd" d="M16 2C8.268 2 2 8.268 2 16c0 2.469.645 4.786 1.77 6.8L2 30l7.42-1.73A13.94 13.94 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm0 25.5c-2.234 0-4.36-.566-6.21-1.61l-.445-.26-4.61 1.073 1.1-4.48-.29-.46A11.44 11.44 0 014.5 16C4.5 9.649 9.649 4.5 16 4.5S27.5 9.649 27.5 16 22.351 27.5 16 27.5z" fill="#fff"/>
@@ -452,7 +536,7 @@ const SocialIcon = ({ type }: { type: 'instagram' | 'twitter' | 'linkedin' | 'gi
   return <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d={paths[type]} /></svg>;
 };
 
-// BOTÓN WHATSAPP FLOTANTE CON NUEVO LOGO
+// Botón WhatsApp Flotante
 const WhatsAppFloat = () => {
   const [hover, setHover] = useState(false);
   
@@ -469,39 +553,39 @@ const WhatsAppFloat = () => {
         bottom: '1.5rem', 
         right: '1.5rem', 
         zIndex: 99999, 
-        width: '58px', 
-        height: '58px', 
+        width: '60px', 
+        height: '60px', 
         borderRadius: '50%', 
         background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)',
         display: 'flex', 
         alignItems: 'center', 
         justifyContent: 'center', 
         boxShadow: hover 
-          ? '0 10px 35px rgba(37,211,102,0.6), 0 0 0 4px rgba(37,211,102,0.2)' 
-          : '0 6px 25px rgba(37,211,102,0.45)',
+          ? '0 12px 38px rgba(37, 211, 102, 0.6), 0 0 0 5px rgba(37, 211, 102, 0.2)' 
+          : '0 6px 28px rgba(37, 211, 102, 0.5)',
         transition: 'all 0.35s var(--ease-spring)', 
         animation: 'waPulse 2s infinite',
-        transform: hover ? 'scale(1.1) rotate(5deg)' : 'scale(1)',
+        transform: hover ? 'scale(1.12) rotate(5deg)' : 'scale(1)',
       }}
     >
       <WhatsAppLogo />
       <div style={{
         position: 'absolute',
-        right: '70px',
+        right: '72px',
         background: 'var(--bg-card)',
-        backdropFilter: 'blur(12px)',
+        backdropFilter: 'blur(14px)',
         border: '1px solid var(--border-hover)',
-        padding: '0.6rem 1rem',
-        borderRadius: '10px',
+        padding: '0.65rem 1.1rem',
+        borderRadius: '12px',
         whiteSpace: 'nowrap',
-        fontSize: '0.85rem',
-        fontWeight: 600,
+        fontSize: '0.88rem',
+        fontWeight: 700,
         opacity: hover ? 1 : 0,
         transform: hover ? 'translate3d(0, 0, 0)' : 'translate3d(15px, 0, 0)',
         transition: 'all 0.35s var(--ease-spring)',
         pointerEvents: 'none',
-        boxShadow: '0 6px 20px rgba(0,0,0,0.25)',
-        color: 'var(--white-95)'
+        boxShadow: '0 8px 25px rgba(0, 0, 0, 0.3)',
+        color: 'var(--white-pure)'
       }}>
         💬 ¡Escríbenos!
       </div>
@@ -598,7 +682,7 @@ function App() {
       <div className="preloader">
         <Logo size="lg" />
         <div className="spinner" />
-        <p style={{ color: 'var(--white-50)', fontSize: '0.75rem', letterSpacing: '2px', textTransform: 'uppercase' }}>Cargando...</p>
+        <p style={{ color: 'var(--white-soft)', fontSize: '0.78rem', letterSpacing: '2.5px', textTransform: 'uppercase', fontWeight: 600 }}>Cargando...</p>
       </div>
     );
   }
@@ -612,7 +696,7 @@ function App() {
       <WhatsAppFloat />
 
       {/* ═══════════════════════════════════════════════════════════════════════════════
-          HERO - OPTIMIZADO PARA VER TODO EN PANTALLA
+          HERO
           ═══════════════════════════════════════════════════════════════════════════════ */}
       <section id="inicio" style={{ 
         minHeight: '100vh', 
@@ -627,19 +711,19 @@ function App() {
         <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
           <div className="gpu-accelerated" style={{
             position: 'absolute', top: '-10%', left: '-5%', width: '50%', height: '50%',
-            background: 'radial-gradient(circle, rgba(79,147,255,0.25) 0%, transparent 60%)',
+            background: 'radial-gradient(circle, rgba(91, 159, 255, 0.28) 0%, transparent 60%)',
             filter: 'blur(80px)', animation: 'floatSlow 18s ease-in-out infinite',
             transform: `translate3d(${mousePos.x * 20}px, ${mousePos.y * 20}px, 0)`
           }} />
           <div className="gpu-accelerated" style={{
             position: 'absolute', bottom: '-10%', right: '-5%', width: '45%', height: '45%',
-            background: 'radial-gradient(circle, rgba(167,139,250,0.2) 0%, transparent 60%)',
+            background: 'radial-gradient(circle, rgba(183, 148, 246, 0.22) 0%, transparent 60%)',
             filter: 'blur(80px)', animation: 'floatReverse 20s ease-in-out infinite',
             transform: `translate3d(${-mousePos.x * 15}px, ${-mousePos.y * 15}px, 0)`
           }} />
           <div style={{
             position: 'absolute', inset: 0,
-            backgroundImage: `linear-gradient(rgba(79,147,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(79,147,255,0.02) 1px, transparent 1px)`,
+            backgroundImage: `linear-gradient(rgba(91, 159, 255, 0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(91, 159, 255, 0.025) 1px, transparent 1px)`,
             backgroundSize: '60px 60px',
             maskImage: 'radial-gradient(ellipse at center, black 20%, transparent 70%)'
           }} />
@@ -658,45 +742,46 @@ function App() {
               <div style={{ marginBottom: '1rem', animation: 'bounceIn 0.7s var(--ease-spring) 0.2s both' }}>
                 <div className="glass" style={{ 
                   display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-                  padding: '0.5rem 1rem', borderRadius: '100px',
-                  fontSize: '0.72rem', fontWeight: 600, 
-                  border: '1px solid rgba(79,147,255,0.35)'
+                  padding: '0.55rem 1.1rem', borderRadius: '100px',
+                  fontSize: '0.75rem', fontWeight: 700
                 }}>
                   <span style={{ 
                     width: '8px', height: '8px', borderRadius: '50%', 
                     background: 'var(--green-bright)', 
-                    boxShadow: '0 0 10px var(--green)', 
+                    boxShadow: '0 0 12px var(--green)', 
                     animation: 'pulse 2s infinite' 
                   }} />
-                  <span style={{ color: 'var(--white-90)' }}>🇪🇸 Agencia Digital Premium — España & LATAM</span>
+                  <span style={{ color: 'var(--white-pure)' }}>🇪🇸 Agencia Digital Premium — España & LATAM</span>
                 </div>
               </div>
 
-              {/* Título COMPACTO */}
+              {/* Título */}
               <h1 style={{ 
                 fontFamily: 'Space Grotesk', 
                 fontSize: 'clamp(1.8rem, 4vw, 3rem)', 
                 fontWeight: 800, 
                 lineHeight: 1.1, 
                 marginBottom: '1rem',
-                animation: 'slideInUp 0.7s var(--ease-smooth) 0.3s both'
+                animation: 'slideInUp 0.7s var(--ease-smooth) 0.3s both',
+                letterSpacing: '-0.02em'
               }}>
-                <span style={{ color: 'var(--white)' }}>Creamos </span>
+                <span style={{ color: 'var(--white-pure)' }}>Creamos </span>
                 <span className="gradient-text">Experiencias Digitales</span>
                 <span style={{ color: 'var(--gold-bright)' }}> Únicas</span>
               </h1>
 
-              {/* Subtítulo COMPACTO */}
+              {/* Subtítulo */}
               <p style={{ 
-                fontSize: 'clamp(0.9rem, 1.8vw, 1rem)', 
-                color: 'var(--white-80)', 
+                fontSize: 'clamp(0.92rem, 1.8vw, 1.02rem)', 
+                color: 'var(--white-medium)', 
                 marginBottom: '1.25rem', 
-                maxWidth: '480px', 
-                lineHeight: 1.65,
-                animation: 'slideInUp 0.7s var(--ease-smooth) 0.4s both'
+                maxWidth: '500px', 
+                lineHeight: 1.7,
+                animation: 'slideInUp 0.7s var(--ease-smooth) 0.4s both',
+                fontWeight: 500
               }}>
-                Transformamos tu visión en una <strong style={{ color: 'var(--white-95)' }}>web que convierte</strong>. 
-                Diseño premium con <span style={{ color: 'var(--green-bright)', fontWeight: 600 }}>resultados garantizados</span> desde <span style={{ color: 'var(--gold-bright)', fontWeight: 700 }}>€299</span>.
+                Transformamos tu visión en una <strong style={{ color: 'var(--white-pure)' }}>web que convierte</strong>. 
+                Diseño premium con <span style={{ color: 'var(--green-bright)', fontWeight: 700 }}>resultados garantizados</span> desde <span style={{ color: 'var(--gold-bright)', fontWeight: 800 }}>€299</span>.
               </p>
 
               {/* CTAs */}
@@ -712,7 +797,7 @@ function App() {
                 </button>
               </div>
 
-              {/* Features COMPACTOS */}
+              {/* Features */}
               <div style={{ 
                 display: 'flex', gap: '1.25rem', flexWrap: 'wrap',
                 animation: 'fadeIn 0.7s var(--ease-smooth) 0.6s both'
@@ -724,21 +809,21 @@ function App() {
                 ].map((f, i) => (
                   <div key={i} style={{ 
                     display: 'flex', alignItems: 'center', gap: '0.5rem',
-                    fontSize: '0.82rem', color: 'var(--white-80)'
+                    fontSize: '0.85rem', color: 'var(--white-pure)'
                   }}>
                     <span style={{ 
-                      width: '32px', height: '32px', background: `${f.color}15`,
-                      borderRadius: '8px', display: 'flex', alignItems: 'center',
-                      justifyContent: 'center', fontSize: '1rem', 
-                      border: `1px solid ${f.color}30`
+                      width: '34px', height: '34px', background: `${f.color}18`,
+                      borderRadius: '10px', display: 'flex', alignItems: 'center',
+                      justifyContent: 'center', fontSize: '1.05rem', 
+                      border: `1px solid ${f.color}35`
                     }}>{f.icon}</span>
-                    <span style={{ fontWeight: 600 }}>{f.text}</span>
+                    <span style={{ fontWeight: 700 }}>{f.text}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* MOCKUP COMPACTO */}
+            {/* MOCKUP */}
             <div className="hero-visual" style={{ 
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               animation: 'slideInRight 0.8s var(--ease-smooth) 0.3s both'
@@ -751,7 +836,7 @@ function App() {
                 {/* Glow */}
                 <div style={{
                   position: 'absolute', inset: '-15%',
-                  background: 'radial-gradient(circle, rgba(79,147,255,0.15) 0%, transparent 60%)',
+                  background: 'radial-gradient(circle, rgba(91, 159, 255, 0.18) 0%, transparent 60%)',
                   filter: 'blur(40px)', animation: 'breathe 4s ease-in-out infinite'
                 }} />
                 
@@ -760,8 +845,8 @@ function App() {
                   position: 'relative',
                   background: 'linear-gradient(145deg, #1a2540, #0f1a2e)',
                   borderRadius: '16px', padding: '10px 10px 0',
-                  boxShadow: '0 30px 80px rgba(0,0,0,0.5), 0 0 40px rgba(79,147,255,0.1)',
-                  border: '1px solid rgba(255,255,255,0.08)'
+                  boxShadow: '0 30px 80px rgba(0,0,0,0.5), 0 0 40px rgba(91, 159, 255, 0.12)',
+                  border: '1px solid rgba(255,255,255,0.1)'
                 }}>
                   {/* Browser bar */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
@@ -771,9 +856,9 @@ function App() {
                       <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#28c840' }} />
                     </div>
                     <div style={{
-                      flex: 1, background: 'rgba(255,255,255,0.06)', borderRadius: '6px',
-                      padding: '6px 10px', fontSize: '0.65rem', color: 'var(--white-50)',
-                      display: 'flex', alignItems: 'center', gap: '6px'
+                      flex: 1, background: 'rgba(255,255,255,0.08)', borderRadius: '6px',
+                      padding: '6px 10px', fontSize: '0.68rem', color: 'var(--white-soft)',
+                      display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 600
                     }}>
                       <span style={{ color: 'var(--green-bright)' }}>🔒</span>
                       <span>interconectadosweb.es</span>
@@ -791,7 +876,7 @@ function App() {
                   </div>
                 </div>
 
-                {/* Badges flotantes COMPACTOS */}
+                {/* Badges flotantes */}
                 <div className="hero-badges">
                   {/* Stats */}
                   <div className="gpu-accelerated" style={{
@@ -799,19 +884,19 @@ function App() {
                     animation: 'float 7s ease-in-out infinite'
                   }}>
                     <div className="glass hover-lift" style={{
-                      padding: '0.7rem 1rem', borderRadius: '12px',
+                      padding: '0.7rem 1rem', borderRadius: '14px',
                       display: 'flex', alignItems: 'center', gap: '0.6rem',
-                      boxShadow: '0 10px 30px rgba(0,0,0,0.35)'
+                      boxShadow: '0 12px 35px rgba(0,0,0,0.4)'
                     }}>
                       <div style={{
-                        width: '36px', height: '36px',
+                        width: '38px', height: '38px',
                         background: 'linear-gradient(135deg, var(--accent), var(--accent-3))',
                         borderRadius: '10px', display: 'flex', alignItems: 'center',
                         justifyContent: 'center', fontSize: '1.1rem'
                       }}>📈</div>
                       <div>
-                        <div className="gradient-text" style={{ fontSize: '1.2rem', fontWeight: 800, fontFamily: 'Space Grotesk' }}>+150</div>
-                        <div style={{ fontSize: '0.65rem', color: 'var(--white-50)' }}>Proyectos</div>
+                        <div className="gradient-text" style={{ fontSize: '1.25rem', fontWeight: 800, fontFamily: 'Space Grotesk' }}>+150</div>
+                        <div style={{ fontSize: '0.68rem', color: 'var(--white-soft)', fontWeight: 600 }}>Proyectos</div>
                       </div>
                     </div>
                   </div>
@@ -822,15 +907,15 @@ function App() {
                     animation: 'floatReverse 8s ease-in-out infinite'
                   }}>
                     <div className="glass hover-lift" style={{
-                      padding: '0.6rem 0.8rem', borderRadius: '10px',
-                      boxShadow: '0 10px 30px rgba(0,0,0,0.35)'
+                      padding: '0.6rem 0.85rem', borderRadius: '12px',
+                      boxShadow: '0 12px 35px rgba(0,0,0,0.4)'
                     }}>
                       <div style={{ display: 'flex', gap: '2px', marginBottom: '0.2rem' }}>
                         {[...Array(5)].map((_, i) => (
-                          <span key={i} style={{ color: 'var(--gold-bright)', fontSize: '0.9rem' }}>★</span>
+                          <span key={i} style={{ color: 'var(--gold-bright)', fontSize: '0.95rem' }}>★</span>
                         ))}
                       </div>
-                      <div style={{ fontSize: '0.65rem', color: 'var(--white-60)', textAlign: 'center' }}>98% Satisfacción</div>
+                      <div style={{ fontSize: '0.68rem', color: 'var(--white-medium)', textAlign: 'center', fontWeight: 600 }}>98% Satisfacción</div>
                     </div>
                   </div>
 
@@ -840,13 +925,13 @@ function App() {
                     animation: 'float 9s ease-in-out infinite'
                   }}>
                     <div className="glass hover-lift" style={{
-                      padding: '0.7rem 0.9rem', borderRadius: '10px',
-                      boxShadow: '0 10px 30px rgba(0,0,0,0.35)',
+                      padding: '0.75rem 0.95rem', borderRadius: '12px',
+                      boxShadow: '0 12px 35px rgba(0,0,0,0.4)',
                       textAlign: 'center'
                     }}>
-                      <div style={{ fontSize: '0.6rem', color: 'var(--white-50)', marginBottom: '0.15rem' }}>Conversión</div>
-                      <div style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--accent-3-bright)', fontFamily: 'Space Grotesk' }}>+340%</div>
-                      <div style={{ fontSize: '0.6rem', color: 'var(--green-bright)' }}>↑ vs promedio</div>
+                      <div style={{ fontSize: '0.62rem', color: 'var(--white-soft)', marginBottom: '0.15rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Conversión</div>
+                      <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--accent-3-bright)', fontFamily: 'Space Grotesk' }}>+340%</div>
+                      <div style={{ fontSize: '0.62rem', color: 'var(--green-bright)', fontWeight: 700 }}>↑ vs promedio</div>
                     </div>
                   </div>
 
@@ -856,17 +941,17 @@ function App() {
                     animation: 'floatReverse 6s ease-in-out infinite'
                   }}>
                     <div className="glass hover-lift" style={{
-                      padding: '0.5rem 0.9rem', borderRadius: '100px',
+                      padding: '0.55rem 0.95rem', borderRadius: '100px',
                       display: 'flex', alignItems: 'center', gap: '0.5rem',
-                      boxShadow: '0 8px 25px rgba(0,0,0,0.35)'
+                      boxShadow: '0 10px 30px rgba(0,0,0,0.4)'
                     }}>
                       <span style={{ 
                         width: '8px', height: '8px', borderRadius: '50%', 
                         background: 'var(--green-bright)', 
-                        boxShadow: '0 0 12px var(--green)',
+                        boxShadow: '0 0 14px var(--green)',
                         animation: 'pulse 1.5s ease infinite'
                       }} />
-                      <span style={{ fontSize: '0.7rem', fontWeight: 600, color: 'var(--green-bright)' }}>3 activos</span>
+                      <span style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--green-bright)' }}>3 activos</span>
                     </div>
                   </div>
                 </div>
@@ -882,7 +967,7 @@ function App() {
             animation: 'fadeIn 1s var(--ease-smooth) 1.2s both'
           }}>
             <div style={{ 
-              width: '22px', height: '36px', 
+              width: '24px', height: '38px', 
               border: '2px solid var(--border-hover)', borderRadius: '12px',
               display: 'flex', justifyContent: 'center', paddingTop: '8px'
             }}>
@@ -891,7 +976,7 @@ function App() {
                 borderRadius: '2px', animation: 'scrollDown 1.5s ease-in-out infinite'
               }} />
             </div>
-            <span style={{ fontSize: '0.6rem', letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--white-40)' }}>Scroll</span>
+            <span style={{ fontSize: '0.62rem', letterSpacing: '2.5px', textTransform: 'uppercase', color: 'var(--white-muted)', fontWeight: 700 }}>Scroll</span>
           </div>
         </div>
 
@@ -927,7 +1012,7 @@ function App() {
           <div className="section-header">
             <div className="section-tag">💡 Nuestra Esencia</div>
             <h2 className="section-title"><span className="gradient-text">Resultados Reales</span>, No Promesas</h2>
-            <p className="section-sub">El equipo que necesitas para <strong style={{ color: 'var(--white-95)' }}>dominar el mundo digital</strong>.</p>
+            <p className="section-sub">El equipo que necesitas para <strong>dominar el mundo digital</strong>.</p>
           </div>
 
           <div className="grid-2" style={{ marginBottom: '2.5rem' }}>
@@ -935,23 +1020,23 @@ function App() {
               { icon: '🎯', title: 'Misión', text: 'Convertimos tu visión en ventas reales. Construimos la máquina digital que impulsa tu negocio.', badge: 'Tu éxito = Nuestro éxito', color: 'var(--accent-bright)' },
               { icon: '🚀', title: 'Visión', text: 'Ser tu aliado digital definitivo. Webs que impresionan y generan resultados medibles.', badge: 'Impacto digital real', color: 'var(--accent-3-bright)' },
             ].map((c, i) => (
-              <div key={i} className="card" style={{ padding: '1.5rem', textAlign: 'center', position: 'relative' }}>
+              <div key={i} className="card" style={{ padding: '1.75rem', textAlign: 'center', position: 'relative' }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: `linear-gradient(90deg, ${c.color}, transparent)` }} />
-                <div style={{ fontSize: '2.2rem', marginBottom: '0.75rem', animation: `float ${4 + i}s ease-in-out infinite` }}>{c.icon}</div>
-                <h3 style={{ fontSize: '1.15rem', fontWeight: 700, marginBottom: '0.6rem', color: c.color }}>{c.title}</h3>
-                <p style={{ color: 'var(--white-70)', marginBottom: '0.9rem', fontSize: '0.88rem', lineHeight: 1.65 }}>{c.text}</p>
-                <span className="glass" style={{ padding: '0.35rem 0.8rem', borderRadius: '100px', fontSize: '0.68rem', fontWeight: 600, color: c.color }}>{c.badge}</span>
+                <div style={{ fontSize: '2.5rem', marginBottom: '0.85rem', animation: `float ${4 + i}s ease-in-out infinite` }}>{c.icon}</div>
+                <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '0.7rem', color: c.color }}>{c.title}</h3>
+                <p style={{ color: 'var(--white-medium)', marginBottom: '1rem', fontSize: '0.92rem', lineHeight: 1.7, fontWeight: 500 }}>{c.text}</p>
+                <span className="glass" style={{ padding: '0.4rem 0.9rem', borderRadius: '100px', fontSize: '0.72rem', fontWeight: 700, color: c.color }}>{c.badge}</span>
               </div>
             ))}
           </div>
 
-          <h3 className="section-title" style={{ textAlign: 'center', fontSize: '1.15rem', marginBottom: '1.25rem' }}>✨ <span className="gradient-text">Lo que nos define</span></h3>
+          <h3 className="section-title" style={{ textAlign: 'center', fontSize: '1.2rem', marginBottom: '1.35rem' }}>✨ <span className="gradient-text">Lo que nos define</span></h3>
           <div className="grid-4">
             {valores.map((v, i) => (
-              <div key={i} className="card hover-lift" style={{ padding: '1.25rem', textAlign: 'center', animation: `fadeUp 0.4s var(--ease-smooth) ${i * 0.08}s both` }}>
-                <div style={{ fontSize: '1.75rem', marginBottom: '0.5rem', animation: `float ${3 + i * 0.4}s ease-in-out infinite` }}>{v.icon}</div>
-                <h4 style={{ fontWeight: 600, marginBottom: '0.35rem', fontSize: '0.88rem', color: 'var(--white-95)' }}>{v.title}</h4>
-                <p style={{ fontSize: '0.78rem', color: 'var(--white-60)', lineHeight: 1.55 }}>{v.desc}</p>
+              <div key={i} className="card hover-lift" style={{ padding: '1.35rem', textAlign: 'center', animation: `fadeUp 0.4s var(--ease-smooth) ${i * 0.08}s both` }}>
+                <div style={{ fontSize: '1.85rem', marginBottom: '0.6rem', animation: `float ${3 + i * 0.4}s ease-in-out infinite` }}>{v.icon}</div>
+                <h4 style={{ fontWeight: 700, marginBottom: '0.4rem', fontSize: '0.92rem', color: 'var(--white-pure)' }}>{v.title}</h4>
+                <p style={{ fontSize: '0.82rem', color: 'var(--white-soft)', lineHeight: 1.6, fontWeight: 500 }}>{v.desc}</p>
               </div>
             ))}
           </div>
@@ -959,17 +1044,17 @@ function App() {
       </section>
 
       {/* ═══════════════ STATS ═══════════════ */}
-      <section className="section" ref={statsRef} style={{ background: 'linear-gradient(180deg, transparent, rgba(79,147,255,0.04), transparent)', padding: '3rem 0' }}>
+      <section className="section" ref={statsRef} style={{ background: 'linear-gradient(180deg, transparent, rgba(91, 159, 255, 0.05), transparent)', padding: '3rem 0' }}>
         <div className="container">
           <div className="section-header" style={{ marginBottom: '1.5rem' }}>
             <h2 className="section-title">📈 <span className="gradient-text">Números que Hablan</span></h2>
           </div>
           <div className="grid-4">
             {stats.map((s, i) => (
-              <div key={i} className="card hover-lift" style={{ padding: '1.25rem', textAlign: 'center', animation: statsVis ? `countUp 0.5s var(--ease-spring) ${i * 0.1}s both` : 'none' }}>
-                <div style={{ fontSize: '1.5rem', marginBottom: '0.4rem' }}>{s.icon}</div>
-                <div className="gradient-text" style={{ fontSize: '1.8rem', fontWeight: 800, fontFamily: 'Space Grotesk' }}>{s.number}</div>
-                <div style={{ fontSize: '0.7rem', color: 'var(--white-50)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{s.label}</div>
+              <div key={i} className="card hover-lift" style={{ padding: '1.35rem', textAlign: 'center', animation: statsVis ? `countUp 0.5s var(--ease-spring) ${i * 0.1}s both` : 'none' }}>
+                <div style={{ fontSize: '1.6rem', marginBottom: '0.5rem' }}>{s.icon}</div>
+                <div className="gradient-text" style={{ fontSize: '1.95rem', fontWeight: 800, fontFamily: 'Space Grotesk' }}>{s.number}</div>
+                <div style={{ fontSize: '0.72rem', color: 'var(--white-soft)', textTransform: 'uppercase', letterSpacing: '0.8px', fontWeight: 700 }}>{s.label}</div>
               </div>
             ))}
           </div>
@@ -982,7 +1067,7 @@ function App() {
           <div className="section-header">
             <div className="section-tag">💼 Servicios & Precios</div>
             <h2 className="section-title"><span className="gradient-text">Soluciones Premium</span></h2>
-            <p className="section-sub"><strong style={{ color: 'var(--white-95)' }}>Precios claros.</strong> Sin sorpresas. Resultados garantizados.</p>
+            <p className="section-sub"><strong>Precios claros.</strong> Sin sorpresas. Resultados garantizados.</p>
           </div>
 
           <div className="grid-3">
@@ -993,67 +1078,67 @@ function App() {
                 animation: `fadeUp 0.4s var(--ease-smooth) ${idx * 0.08}s both`
               }}>
                 <div style={{ 
-                  background: `linear-gradient(135deg, ${s.color}18, transparent)`,
-                  padding: '1.5rem', borderBottom: `1px solid ${s.color}30`
+                  background: `linear-gradient(135deg, ${s.color}20, transparent)`,
+                  padding: '1.6rem', borderBottom: `1px solid ${s.color}35`
                 }}>
                   {s.popular && (
                     <div style={{ 
-                      position: 'absolute', top: '0.9rem', right: '0.9rem', 
-                      background: s.color, color: 'white', padding: '0.3rem 0.7rem', 
-                      borderRadius: '100px', fontSize: '0.65rem', fontWeight: 700, 
-                      boxShadow: `0 0 20px ${s.color}50`, animation: 'pulse 2.5s ease infinite'
+                      position: 'absolute', top: '1rem', right: '1rem', 
+                      background: s.color, color: 'white', padding: '0.32rem 0.75rem', 
+                      borderRadius: '100px', fontSize: '0.68rem', fontWeight: 800, 
+                      boxShadow: `0 0 22px ${s.color}55`, animation: 'pulse 2.5s ease infinite'
                     }}>⭐ POPULAR</div>
                   )}
                   
                   <div style={{ 
-                    width: '50px', height: '50px',
+                    width: '52px', height: '52px',
                     background: `linear-gradient(135deg, ${s.color}, ${s.color}80)`,
-                    borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', 
-                    fontSize: '1.5rem', marginBottom: '0.9rem', boxShadow: `0 4px 15px ${s.color}40`
+                    borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', 
+                    fontSize: '1.6rem', marginBottom: '1rem', boxShadow: `0 5px 18px ${s.color}45`
                   }}>{s.icon}</div>
 
-                  <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.6rem', textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--white-95)' }}>{s.name}</h3>
+                  <h3 style={{ fontSize: '1.05rem', fontWeight: 800, marginBottom: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.6px', color: 'var(--white-pure)' }}>{s.name}</h3>
 
-                  <div style={{ display: 'flex', alignItems: 'baseline', marginBottom: '0.4rem' }}>
-                    <span style={{ fontSize: '0.9rem', color: 'var(--white-50)' }}>€</span>
-                    <span className="gradient-text" style={{ fontSize: '2.2rem', fontWeight: 800, fontFamily: 'Space Grotesk', marginLeft: '0.2rem' }}>{s.price}</span>
-                    {s.suffix && <span style={{ fontSize: '0.8rem', color: 'var(--white-50)', marginLeft: '0.3rem' }}>{s.suffix}</span>}
+                  <div style={{ display: 'flex', alignItems: 'baseline', marginBottom: '0.5rem' }}>
+                    <span style={{ fontSize: '0.95rem', color: 'var(--white-soft)', fontWeight: 600 }}>€</span>
+                    <span className="gradient-text" style={{ fontSize: '2.35rem', fontWeight: 800, fontFamily: 'Space Grotesk', marginLeft: '0.2rem' }}>{s.price}</span>
+                    {s.suffix && <span style={{ fontSize: '0.82rem', color: 'var(--white-soft)', marginLeft: '0.3rem', fontWeight: 600 }}>{s.suffix}</span>}
                   </div>
 
-                  <p style={{ fontSize: '0.85rem', color: 'var(--white-70)', lineHeight: 1.55 }}>{s.desc}</p>
+                  <p style={{ fontSize: '0.88rem', color: 'var(--white-medium)', lineHeight: 1.6, fontWeight: 500 }}>{s.desc}</p>
                 </div>
 
-                <div style={{ padding: '1.5rem', flex: 1 }}>
-                  <ul style={{ listStyle: 'none', marginBottom: '1.25rem' }}>
+                <div style={{ padding: '1.6rem', flex: 1 }}>
+                  <ul style={{ listStyle: 'none', marginBottom: '1.35rem' }}>
                     {s.features.slice(0, 5).map((f, j) => (
                       <li key={j} style={{ 
-                        display: 'flex', alignItems: 'flex-start', gap: '0.6rem', 
-                        padding: '0.55rem 0', borderBottom: j < 4 ? '1px solid var(--border)' : 'none',
-                        fontSize: '0.82rem', color: 'var(--white-70)'
+                        display: 'flex', alignItems: 'flex-start', gap: '0.65rem', 
+                        padding: '0.6rem 0', borderBottom: j < 4 ? '1px solid var(--border)' : 'none',
+                        fontSize: '0.85rem', color: 'var(--white-medium)'
                       }}>
                         <span style={{ 
-                          width: '18px', height: '18px',
+                          width: '20px', height: '20px',
                           background: `linear-gradient(135deg, ${s.color}, ${s.color}80)`,
                           borderRadius: '50%', display: 'flex', alignItems: 'center', 
-                          justifyContent: 'center', fontSize: '0.55rem', color: 'white', flexShrink: 0
+                          justifyContent: 'center', fontSize: '0.58rem', color: 'white', flexShrink: 0, fontWeight: 700
                         }}>✓</span>
-                        <span style={{ lineHeight: 1.45 }}>{f}</span>
+                        <span style={{ lineHeight: 1.5, fontWeight: 500 }}>{f}</span>
                       </li>
                     ))}
                   </ul>
 
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
                     <button 
                       onClick={() => handleBuy(s.name, s.price, s.id)} 
                       disabled={loading === s.id} 
                       className="btn btn-primary btn-block" 
                       style={{ 
                         background: loading === s.id ? 'var(--bg-glass)' : `linear-gradient(135deg, ${s.color}, var(--accent-3))`,
-                        boxShadow: `0 5px 20px ${s.color}40`, padding: '0.75rem'
+                        boxShadow: `0 6px 22px ${s.color}45`, padding: '0.8rem'
                       }}
                     >
                       {loading === s.id ? (
-                        <><span className="spinner" style={{ width: '16px', height: '16px', borderWidth: '2px' }} /> Procesando...</>
+                        <><span className="spinner" style={{ width: '18px', height: '18px', borderWidth: '2px' }} /> Procesando...</>
                       ) : (<>🚀 Contratar</>)}
                     </button>
                     
@@ -1061,11 +1146,11 @@ function App() {
                       href={`https://wa.me/${SEO_CONFIG.whatsapp}?text=${encodeURIComponent(`¡Hola! Me interesa "${s.name}"`)}`}
                       target="_blank" rel="noopener noreferrer"
                       className="btn btn-secondary btn-block"
-                      style={{ fontSize: '0.85rem', padding: '0.6rem', textDecoration: 'none' }}
+                      style={{ fontSize: '0.88rem', padding: '0.65rem', textDecoration: 'none' }}
                     >💬 Consultar</a>
                   </div>
 
-                  <p style={{ textAlign: 'center', fontSize: '0.65rem', color: 'var(--white-40)', marginTop: '0.7rem' }}>
+                  <p style={{ textAlign: 'center', fontSize: '0.68rem', color: 'var(--white-muted)', marginTop: '0.8rem', fontWeight: 600 }}>
                     <span style={{ color: 'var(--green-bright)' }}>🔒</span> Pago seguro con Stripe
                   </p>
                 </div>
@@ -1079,16 +1164,16 @@ function App() {
       <section style={{ padding: '2.5rem 0' }}>
         <div className="container">
           <div className="section-header" style={{ marginBottom: '1.5rem' }}>
-            <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--white-95)' }}>📋 <span className="gradient-text">Todo Claro</span> desde el Minuto 1</h3>
-            <p style={{ color: 'var(--white-60)', fontSize: '0.88rem' }}>Sin sorpresas. Sin costes ocultos.</p>
+            <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--white-pure)' }}>📋 <span className="gradient-text">Todo Claro</span> desde el Minuto 1</h3>
+            <p style={{ color: 'var(--white-soft)', fontSize: '0.92rem', fontWeight: 500 }}>Sin sorpresas. Sin costes ocultos.</p>
           </div>
           <div className="grid-3">
             {infoCards.map((c, i) => (
-              <div key={i} className="card hover-lift" style={{ padding: '1.25rem', display: 'flex', gap: '0.75rem', alignItems: 'flex-start', animation: `fadeUp 0.35s var(--ease-smooth) ${i * 0.08}s both` }}>
-                <div className="glass" style={{ width: '40px', height: '40px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', flexShrink: 0 }}>{c.icon}</div>
+              <div key={i} className="card hover-lift" style={{ padding: '1.35rem', display: 'flex', gap: '0.8rem', alignItems: 'flex-start', animation: `fadeUp 0.35s var(--ease-smooth) ${i * 0.08}s both` }}>
+                <div className="glass" style={{ width: '44px', height: '44px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.1rem', flexShrink: 0 }}>{c.icon}</div>
                 <div>
-                  <h4 style={{ fontWeight: 600, marginBottom: '0.25rem', fontSize: '0.88rem', color: 'var(--white-95)' }}>{c.title}</h4>
-                  <p style={{ fontSize: '0.78rem', color: 'var(--white-60)', lineHeight: 1.55 }}>{c.desc}</p>
+                  <h4 style={{ fontWeight: 700, marginBottom: '0.3rem', fontSize: '0.92rem', color: 'var(--white-pure)' }}>{c.title}</h4>
+                  <p style={{ fontSize: '0.82rem', color: 'var(--white-soft)', lineHeight: 1.6, fontWeight: 500 }}>{c.desc}</p>
                 </div>
               </div>
             ))}
@@ -1102,24 +1187,24 @@ function App() {
           <div className="section-header">
             <div className="section-tag">🎨 Portfolio</div>
             <h2 className="section-title"><span className="gradient-text">Proyectos Destacados</span></h2>
-            <p className="section-sub">Cada proyecto es una <strong style={{ color: 'var(--white-95)' }}>historia de éxito</strong>.</p>
+            <p className="section-sub">Cada proyecto es una <strong>historia de éxito</strong>.</p>
           </div>
 
           <div className="grid-3">
             {projects.map((p, i) => (
               <article key={p.id} className="card interactive" style={{ cursor: 'pointer', animation: `fadeUp 0.4s var(--ease-smooth) ${i * 0.08}s both` }} onClick={() => setProject(p)}>
-                <div style={{ height: '150px', overflow: 'hidden', position: 'relative' }}>
+                <div style={{ height: '155px', overflow: 'hidden', position: 'relative' }}>
                   <img src={p.img} alt={p.title} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s var(--ease-smooth)' }} 
                     onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.1)'} 
                     onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'} />
                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, var(--bg), transparent 50%)' }} />
-                  <span className="glass" style={{ position: 'absolute', top: '0.6rem', left: '0.6rem', padding: '0.25rem 0.5rem', borderRadius: '100px', fontSize: '0.6rem', fontWeight: 600 }}>{p.enfoque.split(' ')[0]}</span>
+                  <span className="glass" style={{ position: 'absolute', top: '0.65rem', left: '0.65rem', padding: '0.28rem 0.55rem', borderRadius: '100px', fontSize: '0.62rem', fontWeight: 700, color: 'var(--accent-2-bright)' }}>{p.enfoque.split(' ')[0]}</span>
                 </div>
-                <div style={{ padding: '1.25rem' }}>
-                  <h3 style={{ fontSize: '0.95rem', fontWeight: 700, marginBottom: '0.35rem', color: 'var(--accent-2-bright)' }}>{p.title}</h3>
-                  <p style={{ fontSize: '0.75rem', color: 'var(--white-60)', marginBottom: '0.7rem', lineHeight: 1.55 }}>{p.descShort}</p>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem', marginBottom: '0.75rem' }}>
-                    {p.tags.slice(0, 3).map(tag => (<span key={tag} className="glass" style={{ padding: '0.2rem 0.4rem', borderRadius: '5px', fontSize: '0.6rem', color: 'var(--accent-bright)' }}>{tag}</span>))}
+                <div style={{ padding: '1.35rem' }}>
+                  <h3 style={{ fontSize: '1rem', fontWeight: 800, marginBottom: '0.4rem', color: 'var(--accent-2-bright)' }}>{p.title}</h3>
+                  <p style={{ fontSize: '0.78rem', color: 'var(--white-soft)', marginBottom: '0.75rem', lineHeight: 1.6, fontWeight: 500 }}>{p.descShort}</p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.28rem', marginBottom: '0.8rem' }}>
+                    {p.tags.slice(0, 3).map(tag => (<span key={tag} className="glass" style={{ padding: '0.22rem 0.45rem', borderRadius: '6px', fontSize: '0.62rem', color: 'var(--accent-bright)', fontWeight: 600 }}>{tag}</span>))}
                   </div>
                   <button className="btn btn-secondary btn-sm btn-block">Ver Proyecto</button>
                 </div>
@@ -1132,24 +1217,24 @@ function App() {
       {/* Modal Proyecto */}
       {project && (
         <div onClick={e => e.target === e.currentTarget && setProject(null)} 
-          style={{ position: 'fixed', inset: 0, background: 'rgba(10,21,37,0.97)', backdropFilter: 'blur(15px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100000, padding: '1rem' }}>
-          <div className="card project-modal" style={{ width: '100%', maxWidth: '900px', maxHeight: '85vh', overflow: 'auto', animation: 'modalIn 0.35s var(--ease-spring)', display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
-            <div style={{ background: 'var(--bg-dark)', padding: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <img src={project.img} alt={project.title} style={{ width: '100%', borderRadius: '12px', boxShadow: '0 15px 40px rgba(0,0,0,0.4)' }} />
+          style={{ position: 'fixed', inset: 0, background: 'rgba(10,21,37,0.97)', backdropFilter: 'blur(18px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100000, padding: '1rem' }}>
+          <div className="card project-modal" style={{ width: '100%', maxWidth: '920px', maxHeight: '88vh', overflow: 'auto', animation: 'modalIn 0.35s var(--ease-spring)', display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
+            <div style={{ background: 'var(--bg-dark)', padding: '1.6rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <img src={project.img} alt={project.title} style={{ width: '100%', borderRadius: '14px', boxShadow: '0 18px 45px rgba(0,0,0,0.45)' }} />
             </div>
-            <div style={{ padding: '1.5rem', position: 'relative' }}>
-              <button onClick={() => setProject(null)} className="glass interactive modal-close" style={{ position: 'absolute', top: '0.75rem', right: '0.75rem', width: '32px', height: '32px', borderRadius: '50%', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '0.9rem' }}>✕</button>
-              <h2 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.35rem', color: 'var(--accent-2-bright)' }}>{project.title}</h2>
-              <p style={{ color: 'var(--green-bright)', fontWeight: 600, marginBottom: '0.9rem', fontSize: '0.82rem' }}>🏷️ {project.enfoque}</p>
-              <p style={{ color: 'var(--white-70)', lineHeight: 1.7, marginBottom: '0.9rem', fontSize: '0.88rem' }}>{project.desc}</p>
-              <div className="glass" style={{ padding: '0.75rem', borderRadius: '10px', marginBottom: '0.9rem', borderLeft: '3px solid var(--accent-bright)' }}>
-                <p style={{ fontWeight: 600, marginBottom: '0.2rem', fontSize: '0.75rem', color: 'var(--accent-bright)' }}>⚡ Destacado técnico</p>
-                <p style={{ fontSize: '0.82rem', color: 'var(--white-70)' }}>{project.highlight}</p>
+            <div style={{ padding: '1.6rem', position: 'relative' }}>
+              <button onClick={() => setProject(null)} className="glass interactive modal-close" style={{ position: 'absolute', top: '0.8rem', right: '0.8rem', width: '34px', height: '34px', borderRadius: '50%', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '0.95rem', fontWeight: 700 }}>✕</button>
+              <h2 style={{ fontSize: '1.3rem', fontWeight: 800, marginBottom: '0.4rem', color: 'var(--accent-2-bright)' }}>{project.title}</h2>
+              <p style={{ color: 'var(--green-bright)', fontWeight: 700, marginBottom: '1rem', fontSize: '0.85rem' }}>🏷️ {project.enfoque}</p>
+              <p style={{ color: 'var(--white-medium)', lineHeight: 1.75, marginBottom: '1rem', fontSize: '0.92rem', fontWeight: 500 }}>{project.desc}</p>
+              <div className="glass" style={{ padding: '0.85rem', borderRadius: '12px', marginBottom: '1rem', borderLeft: '3px solid var(--accent-bright)' }}>
+                <p style={{ fontWeight: 700, marginBottom: '0.25rem', fontSize: '0.78rem', color: 'var(--accent-bright)' }}>⚡ Destacado técnico</p>
+                <p style={{ fontSize: '0.85rem', color: 'var(--white-medium)', fontWeight: 500 }}>{project.highlight}</p>
               </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem', marginBottom: '0.9rem' }}>
-                {project.tags.map(tag => (<span key={tag} className="glass" style={{ padding: '0.25rem 0.5rem', borderRadius: '100px', fontSize: '0.68rem', color: 'var(--accent-2-bright)' }}>{tag}</span>))}
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.32rem', marginBottom: '1rem' }}>
+                {project.tags.map(tag => (<span key={tag} className="glass" style={{ padding: '0.28rem 0.55rem', borderRadius: '100px', fontSize: '0.7rem', color: 'var(--accent-2-bright)', fontWeight: 600 }}>{tag}</span>))}
               </div>
-              <div style={{ display: 'flex', gap: '0.5rem' }}>
+              <div style={{ display: 'flex', gap: '0.55rem' }}>
                 <a href={project.url} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-sm" style={{ flex: 1 }}>🚀 Ver en Vivo</a>
                 <button onClick={() => { setProject(null); setTimeout(() => scrollTo('#contacto'), 100); }} className="btn btn-secondary btn-sm">💬 Quiero Similar</button>
               </div>
@@ -1168,10 +1253,10 @@ function App() {
           </div>
           <div className="grid-3">
             {diferenciadores.map((d, i) => (
-              <div key={i} className="card hover-lift" style={{ padding: '1.5rem', textAlign: 'center', animation: `fadeUp 0.4s var(--ease-smooth) ${i * 0.08}s both` }}>
-                <div style={{ fontSize: '2.2rem', marginBottom: '0.75rem', animation: `float ${4 + i * 0.4}s ease-in-out infinite` }}>{d.icon}</div>
-                <h4 style={{ fontSize: '0.95rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--white-95)' }}>{d.title}</h4>
-                <p style={{ fontSize: '0.82rem', color: 'var(--white-60)', lineHeight: 1.65 }}>{d.desc}</p>
+              <div key={i} className="card hover-lift" style={{ padding: '1.6rem', textAlign: 'center', animation: `fadeUp 0.4s var(--ease-smooth) ${i * 0.08}s both` }}>
+                <div style={{ fontSize: '2.3rem', marginBottom: '0.8rem', animation: `float ${4 + i * 0.4}s ease-in-out infinite` }}>{d.icon}</div>
+                <h4 style={{ fontSize: '1rem', fontWeight: 800, marginBottom: '0.55rem', color: 'var(--white-pure)' }}>{d.title}</h4>
+                <p style={{ fontSize: '0.85rem', color: 'var(--white-soft)', lineHeight: 1.7, fontWeight: 500 }}>{d.desc}</p>
               </div>
             ))}
           </div>
@@ -1179,27 +1264,27 @@ function App() {
       </section>
 
       {/* ═══════════════ PROCESO ═══════════════ */}
-      <section className="section" id="metodologia" style={{ background: 'linear-gradient(180deg, transparent, rgba(167,139,250,0.04), transparent)' }}>
+      <section className="section" id="metodologia" style={{ background: 'linear-gradient(180deg, transparent, rgba(183, 148, 246, 0.05), transparent)' }}>
         <div className="container">
           <div className="section-header">
             <div className="section-tag">⚙️ Metodología</div>
             <h2 className="section-title"><span className="gradient-text">Proceso Simple</span></h2>
-            <p className="section-sub"><strong style={{ color: 'var(--white-95)' }}>5 pasos</strong> del concepto al lanzamiento.</p>
+            <p className="section-sub"><strong>5 pasos</strong> del concepto al lanzamiento.</p>
           </div>
 
-          <div style={{ maxWidth: '700px', margin: '0 auto' }}>
+          <div style={{ maxWidth: '720px', margin: '0 auto' }}>
             {proceso.map((p, i) => (
-              <div key={i} style={{ display: 'flex', gap: '1rem', marginBottom: '1.25rem', animation: `fadeUp 0.4s var(--ease-smooth) ${i * 0.08}s both` }}>
+              <div key={i} style={{ display: 'flex', gap: '1.1rem', marginBottom: '1.35rem', animation: `fadeUp 0.4s var(--ease-smooth) ${i * 0.08}s both` }}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                  <div className="glass" style={{ width: '48px', height: '48px', borderRadius: '50%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', border: '2px solid var(--accent-bright)', boxShadow: '0 0 15px rgba(79,147,255,0.2)' }}>
-                    <span style={{ fontSize: '1rem' }}>{p.icon}</span>
-                    <span style={{ fontSize: '0.5rem', fontWeight: 700, color: 'var(--accent-bright)' }}>{p.step}</span>
+                  <div className="glass" style={{ width: '52px', height: '52px', borderRadius: '50%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', border: '2px solid var(--accent-bright)', boxShadow: '0 0 18px rgba(91, 159, 255, 0.25)' }}>
+                    <span style={{ fontSize: '1.1rem' }}>{p.icon}</span>
+                    <span style={{ fontSize: '0.52rem', fontWeight: 800, color: 'var(--accent-bright)' }}>{p.step}</span>
                   </div>
-                  {i < proceso.length - 1 && <div style={{ width: '2px', flex: 1, minHeight: '20px', background: 'linear-gradient(to bottom, var(--accent-bright), transparent)', marginTop: '0.4rem' }} />}
+                  {i < proceso.length - 1 && <div style={{ width: '2px', flex: 1, minHeight: '22px', background: 'linear-gradient(to bottom, var(--accent-bright), transparent)', marginTop: '0.45rem' }} />}
                 </div>
-                <div className="card hover-lift" style={{ flex: 1, padding: '1.25rem' }}>
-                  <h4 style={{ fontWeight: 700, marginBottom: '0.35rem', fontSize: '0.95rem', color: 'var(--white-95)' }}>{p.title}</h4>
-                  <p style={{ fontSize: '0.82rem', color: 'var(--white-60)', lineHeight: 1.55 }}>{p.desc}</p>
+                <div className="card hover-lift" style={{ flex: 1, padding: '1.35rem' }}>
+                  <h4 style={{ fontWeight: 800, marginBottom: '0.4rem', fontSize: '1rem', color: 'var(--white-pure)' }}>{p.title}</h4>
+                  <p style={{ fontSize: '0.85rem', color: 'var(--white-soft)', lineHeight: 1.6, fontWeight: 500 }}>{p.desc}</p>
                 </div>
               </div>
             ))}
@@ -1215,21 +1300,21 @@ function App() {
             <h2 className="section-title"><span className="gradient-text">Clientes Satisfechos</span></h2>
           </div>
         </div>
-        <div style={{ overflow: 'hidden', padding: '0.75rem 0' }}>
-          <div className="gpu-accelerated" style={{ display: 'flex', animation: 'carousel 40s linear infinite', width: 'max-content' }} 
+        <div style={{ overflow: 'hidden', padding: '0.8rem 0' }}>
+          <div className="gpu-accelerated" style={{ display: 'flex', animation: 'carousel 42s linear infinite', width: 'max-content' }} 
             onMouseEnter={e => e.currentTarget.style.animationPlayState = 'paused'} 
             onMouseLeave={e => e.currentTarget.style.animationPlayState = 'running'}>
             {[...reviews, ...reviews].map((r, i) => (
-              <div key={i} className="card" style={{ flex: '0 0 320px', margin: '0 0.5rem', padding: '1.5rem' }}>
-                <div style={{ display: 'flex', gap: '3px', marginBottom: '0.75rem' }}>
-                  {[...Array(r.rating)].map((_, j) => (<span key={j} style={{ color: 'var(--gold-bright)', fontSize: '0.85rem' }}>★</span>))}
+              <div key={i} className="card" style={{ flex: '0 0 330px', margin: '0 0.55rem', padding: '1.6rem' }}>
+                <div style={{ display: 'flex', gap: '3px', marginBottom: '0.8rem' }}>
+                  {[...Array(r.rating)].map((_, j) => (<span key={j} style={{ color: 'var(--gold-bright)', fontSize: '0.9rem' }}>★</span>))}
                 </div>
-                <p style={{ fontStyle: 'italic', color: 'var(--white-70)', lineHeight: 1.65, marginBottom: '0.9rem', fontSize: '0.88rem' }}>"{r.texto}"</p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                  <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--accent), var(--accent-3))', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '0.85rem' }}>{r.iniciales}</div>
+                <p style={{ fontStyle: 'italic', color: 'var(--white-medium)', lineHeight: 1.7, marginBottom: '1rem', fontSize: '0.92rem', fontWeight: 500 }}>"{r.texto}"</p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                  <div style={{ width: '44px', height: '44px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--accent), var(--accent-3))', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '0.88rem' }}>{r.iniciales}</div>
                   <div>
-                    <p style={{ fontWeight: 600, fontSize: '0.82rem', color: 'var(--white-90)' }}>{r.autor}</p>
-                    <p style={{ fontSize: '0.72rem', color: 'var(--white-50)' }}>{r.cargo}</p>
+                    <p style={{ fontWeight: 700, fontSize: '0.88rem', color: 'var(--white-pure)' }}>{r.autor}</p>
+                    <p style={{ fontSize: '0.75rem', color: 'var(--white-soft)', fontWeight: 500 }}>{r.cargo}</p>
                   </div>
                 </div>
               </div>
@@ -1239,22 +1324,22 @@ function App() {
       </section>
 
       {/* ═══════════════ CTA ═══════════════ */}
-      <section style={{ padding: '4rem 1.5rem', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, var(--accent), var(--accent-3))', opacity: 0.1 }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, rgba(79,147,255,0.18), transparent 70%)' }} />
+      <section style={{ padding: '4.5rem 1.5rem', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, var(--accent), var(--accent-3))', opacity: 0.12 }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, rgba(91, 159, 255, 0.2), transparent 70%)' }} />
         <div className="container" style={{ position: 'relative', textAlign: 'center' }}>
-          <div style={{ marginBottom: '1rem' }}>
-            {['🚀', '💎', '⚡'].map((e, i) => (<span key={i} style={{ fontSize: '2rem', margin: '0 0.35rem', display: 'inline-block', animation: `float ${3 + i * 0.4}s ease-in-out infinite` }}>{e}</span>))}
+          <div style={{ marginBottom: '1.1rem' }}>
+            {['🚀', '💎', '⚡'].map((e, i) => (<span key={i} style={{ fontSize: '2.1rem', margin: '0 0.4rem', display: 'inline-block', animation: `float ${3 + i * 0.4}s ease-in-out infinite` }}>{e}</span>))}
           </div>
-          <h2 style={{ fontFamily: 'Space Grotesk', fontSize: 'clamp(1.5rem, 4vw, 2.2rem)', fontWeight: 700, marginBottom: '0.75rem' }}>¿Listo para <span className="gradient-text">Despegar</span>?</h2>
-          <p style={{ fontSize: '0.95rem', color: 'var(--white-70)', marginBottom: '1.5rem' }}><strong style={{ color: 'var(--white-95)' }}>+150 empresas</strong> ya confían en nosotros.</p>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
+          <h2 style={{ fontFamily: 'Space Grotesk', fontSize: 'clamp(1.6rem, 4.5vw, 2.4rem)', fontWeight: 800, marginBottom: '0.8rem', color: 'var(--white-pure)' }}>¿Listo para <span className="gradient-text">Despegar</span>?</h2>
+          <p style={{ fontSize: '1rem', color: 'var(--white-medium)', marginBottom: '1.6rem', fontWeight: 500 }}><strong style={{ color: 'var(--white-pure)' }}>+150 empresas</strong> ya confían en nosotros.</p>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '0.8rem', flexWrap: 'wrap', marginBottom: '1.6rem' }}>
             <button onClick={() => scrollTo('#contacto')} className="btn btn-primary btn-lg">🚀 Empezar Ahora</button>
             <button onClick={() => scrollTo('#servicios')} className="btn btn-secondary btn-lg">💼 Ver Precios</button>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '0.8rem', flexWrap: 'wrap' }}>
             {['✅ Consulta gratis', '💰 Sin ocultos', '🛡️ 30 días garantía'].map((f, i) => (
-              <span key={i} className="glass" style={{ padding: '0.5rem 1rem', borderRadius: '100px', fontSize: '0.78rem', color: 'var(--white-80)' }}>{f}</span>
+              <span key={i} className="glass" style={{ padding: '0.55rem 1.05rem', borderRadius: '100px', fontSize: '0.82rem', color: 'var(--white-pure)', fontWeight: 600 }}>{f}</span>
             ))}
           </div>
         </div>
@@ -1270,43 +1355,43 @@ function App() {
           </div>
 
           <div className="grid-2">
-            <div className="card" style={{ padding: '1.5rem' }}>
-              <h3 style={{ fontSize: '1.15rem', fontWeight: 700, marginBottom: '1.25rem', color: 'var(--white-95)' }}>🌟 Conecta con Nosotros</h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            <div className="card" style={{ padding: '1.6rem' }}>
+              <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '1.35rem', color: 'var(--white-pure)' }}>🌟 Conecta con Nosotros</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
                 {[
                   { icon: '📧', label: 'Email', value: SEO_CONFIG.email, href: `mailto:${SEO_CONFIG.email}`, color: 'var(--accent-bright)' },
                   { icon: '💬', label: 'WhatsApp', value: '+57 301 436 7948', href: `https://wa.me/${SEO_CONFIG.whatsapp}`, target: '_blank', color: '#25D366' },
                   { icon: '📍', label: 'Ubicación', value: SEO_CONFIG.address, color: 'var(--accent-3-bright)' },
                 ].map((m, i) => (
                   <div key={i} onClick={() => m.href && (m.target ? window.open(m.href, '_blank') : (location.href = m.href))}
-                    className="glass hover-lift" style={{ padding: '0.9rem', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: m.href ? 'pointer' : 'default', borderLeft: `3px solid ${m.color}` }}>
-                    <div style={{ width: '40px', height: '40px', background: `${m.color}15`, borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.1rem' }}>{m.icon}</div>
+                    className="glass hover-lift" style={{ padding: '1rem', borderRadius: '14px', display: 'flex', alignItems: 'center', gap: '0.8rem', cursor: m.href ? 'pointer' : 'default', borderLeft: `3px solid ${m.color}` }}>
+                    <div style={{ width: '44px', height: '44px', background: `${m.color}18`, borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.15rem' }}>{m.icon}</div>
                     <div>
-                      <p style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--white-95)' }}>{m.label}</p>
-                      <p style={{ fontSize: '0.78rem', color: 'var(--white-50)' }}>{m.value}</p>
+                      <p style={{ fontWeight: 700, fontSize: '0.92rem', color: 'var(--white-pure)' }}>{m.label}</p>
+                      <p style={{ fontSize: '0.82rem', color: 'var(--white-soft)', fontWeight: 500 }}>{m.value}</p>
                     </div>
                   </div>
                 ))}
               </div>
-              <div className="glass" style={{ marginTop: '0.9rem', padding: '0.9rem', borderRadius: '12px', borderLeft: '3px solid var(--green-bright)' }}>
-                <p style={{ fontWeight: 600, color: 'var(--green-bright)', fontSize: '0.82rem' }}>⚡ Disponibilidad 24/7</p>
-                <p style={{ fontSize: '0.75rem', color: 'var(--white-50)', marginTop: '0.2rem' }}>Respuesta garantizada en menos de 2 horas</p>
+              <div className="glass" style={{ marginTop: '1rem', padding: '1rem', borderRadius: '14px', borderLeft: '3px solid var(--green-bright)' }}>
+                <p style={{ fontWeight: 700, color: 'var(--green-bright)', fontSize: '0.88rem' }}>⚡ Disponibilidad 24/7</p>
+                <p style={{ fontSize: '0.78rem', color: 'var(--white-soft)', marginTop: '0.25rem', fontWeight: 500 }}>Respuesta garantizada en menos de 2 horas</p>
               </div>
             </div>
 
-            <div className="card" style={{ padding: '1.5rem' }}>
-              <h3 style={{ fontSize: '1.15rem', fontWeight: 700, marginBottom: '0.35rem', color: 'var(--white-95)' }}>🎁 Consulta Gratuita</h3>
-              <p style={{ color: 'var(--white-50)', marginBottom: '1.25rem', fontSize: '0.82rem' }}>Te responderemos por WhatsApp.</p>
+            <div className="card" style={{ padding: '1.6rem' }}>
+              <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '0.4rem', color: 'var(--white-pure)' }}>🎁 Consulta Gratuita</h3>
+              <p style={{ color: 'var(--white-soft)', marginBottom: '1.35rem', fontSize: '0.85rem', fontWeight: 500 }}>Te responderemos por WhatsApp.</p>
               {sent && (
-                <div className="glass" style={{ padding: '0.9rem', borderRadius: '12px', marginBottom: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.6rem', borderLeft: '3px solid var(--green-bright)', animation: 'fadeIn 0.35s var(--ease-spring)' }}>
-                  <span style={{ fontSize: '1.2rem' }}>✅</span>
+                <div className="glass" style={{ padding: '1rem', borderRadius: '14px', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.65rem', borderLeft: '3px solid var(--green-bright)', animation: 'fadeIn 0.35s var(--ease-spring)' }}>
+                  <span style={{ fontSize: '1.25rem' }}>✅</span>
                   <div>
-                    <p style={{ fontWeight: 600, color: 'var(--green-bright)', fontSize: '0.88rem' }}>¡Enviado!</p>
-                    <p style={{ fontSize: '0.75rem', color: 'var(--white-50)' }}>Te contactaremos pronto.</p>
+                    <p style={{ fontWeight: 700, color: 'var(--green-bright)', fontSize: '0.92rem' }}>¡Enviado!</p>
+                    <p style={{ fontSize: '0.78rem', color: 'var(--white-soft)', fontWeight: 500 }}>Te contactaremos pronto.</p>
                   </div>
                 </div>
               )}
-              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
                 {[
                   { name: 'nombre', placeholder: 'Tu nombre *', type: 'text', required: true },
                   { name: 'email', placeholder: 'Tu email *', type: 'email', required: true },
@@ -1314,24 +1399,24 @@ function App() {
                 ].map(f => (
                   <input key={f.name} type={f.type} placeholder={f.placeholder} required={f.required}
                     value={form[f.name as keyof typeof form]} onChange={e => setForm(p => ({ ...p, [f.name]: e.target.value }))}
-                    style={{ width: '100%', padding: '0.85rem', borderRadius: '12px', border: '1.5px solid var(--border)', background: 'var(--bg-glass)', color: 'white', fontSize: '0.88rem', outline: 'none', transition: 'all 0.35s var(--ease-spring)' }}
-                    onFocus={e => { e.target.style.borderColor = 'var(--accent-bright)'; e.target.style.boxShadow = '0 0 15px rgba(79,147,255,0.15)'; }} 
+                    style={{ width: '100%', padding: '0.9rem', borderRadius: '12px', border: '2px solid var(--border)', background: 'var(--bg-glass)', color: 'var(--white-pure)', fontSize: '0.92rem', outline: 'none', transition: 'all 0.35s var(--ease-spring)', fontWeight: 600 }}
+                    onFocus={e => { e.target.style.borderColor = 'var(--accent-bright)'; e.target.style.boxShadow = '0 0 18px rgba(91, 159, 255, 0.18)'; }} 
                     onBlur={e => { e.target.style.borderColor = 'var(--border)'; e.target.style.boxShadow = 'none'; }}
                   />
                 ))}
                 <select value={form.servicio} onChange={e => setForm(p => ({ ...p, servicio: e.target.value }))}
-                  style={{ width: '100%', padding: '0.85rem', borderRadius: '12px', border: '1.5px solid var(--border)', background: 'var(--bg-glass)', color: form.servicio ? 'white' : 'var(--white-50)', fontSize: '0.88rem', outline: 'none', cursor: 'pointer' }}>
+                  style={{ width: '100%', padding: '0.9rem', borderRadius: '12px', border: '2px solid var(--border)', background: 'var(--bg-glass)', color: form.servicio ? 'var(--white-pure)' : 'var(--white-muted)', fontSize: '0.92rem', outline: 'none', cursor: 'pointer', fontWeight: 600 }}>
                   <option value="">¿Qué servicio necesitas?</option>
                   {servicios.map(s => (<option key={s.id} value={s.name}>{s.icon} {s.name} — €{s.price}</option>))}
                   <option value="Otro">Otro / Personalizado</option>
                 </select>
                 <textarea placeholder="Cuéntanos tu proyecto... *" rows={3} required value={form.mensaje} onChange={e => setForm(p => ({ ...p, mensaje: e.target.value }))}
-                  style={{ width: '100%', padding: '0.85rem', borderRadius: '12px', border: '1.5px solid var(--border)', background: 'var(--bg-glass)', color: 'white', fontSize: '0.88rem', outline: 'none', resize: 'vertical', minHeight: '80px', transition: 'all 0.35s var(--ease-spring)' }}
-                  onFocus={e => { e.target.style.borderColor = 'var(--accent-bright)'; e.target.style.boxShadow = '0 0 15px rgba(79,147,255,0.15)'; }} 
+                  style={{ width: '100%', padding: '0.9rem', borderRadius: '12px', border: '2px solid var(--border)', background: 'var(--bg-glass)', color: 'var(--white-pure)', fontSize: '0.92rem', outline: 'none', resize: 'vertical', minHeight: '85px', transition: 'all 0.35s var(--ease-spring)', fontWeight: 600 }}
+                  onFocus={e => { e.target.style.borderColor = 'var(--accent-bright)'; e.target.style.boxShadow = '0 0 18px rgba(91, 159, 255, 0.18)'; }} 
                   onBlur={e => { e.target.style.borderColor = 'var(--border)'; e.target.style.boxShadow = 'none'; }}
                 />
-                <button type="submit" className="btn btn-primary btn-block">🚀 Enviar Consulta</button>
-                <p style={{ textAlign: 'center', fontSize: '0.68rem', color: 'var(--white-40)' }}>🔒 Datos 100% seguros. Sin spam.</p>
+                <button type="submit" className="btn btn-primary btn-block" style={{ padding: '0.95rem' }}>🚀 Enviar Consulta</button>
+                <p style={{ textAlign: 'center', fontSize: '0.7rem', color: 'var(--white-muted)', fontWeight: 600 }}>🔒 Datos 100% seguros. Sin spam.</p>
               </form>
             </div>
           </div>
@@ -1339,70 +1424,77 @@ function App() {
       </section>
 
       {/* ═══════════════ FOOTER ═══════════════ */}
-      <footer style={{ background: 'var(--bg-dark)', borderTop: '1px solid var(--border)', padding: '3rem 0 1.5rem' }}>
+      <footer style={{ background: 'var(--bg-dark)', borderTop: '1px solid var(--border)', padding: '3.5rem 0 1.75rem' }}>
         <div className="container">
-          <div className="footer-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '2rem', marginBottom: '2rem' }}>
+          <div className="footer-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '2.25rem', marginBottom: '2.25rem' }}>
             <div>
-              <div style={{ marginBottom: '0.9rem' }}><Logo size="sm" /></div>
-              <p style={{ fontSize: '0.82rem', color: 'var(--white-50)', lineHeight: 1.65, marginBottom: '0.9rem' }}>Agencia digital premium desde 2019.</p>
-              <div style={{ display: 'flex', gap: '0.5rem' }}>
+              <div style={{ marginBottom: '1rem' }}><Logo size="sm" /></div>
+              <p style={{ fontSize: '0.85rem', color: 'var(--white-soft)', lineHeight: 1.7, marginBottom: '1rem', fontWeight: 500 }}>Agencia digital premium desde 2019.</p>
+              <div style={{ display: 'flex', gap: '0.55rem' }}>
                 {['instagram', 'twitter', 'linkedin', 'github'].map((s) => (
-                  <a key={s} href="#" className="glass interactive" style={{ width: '36px', height: '36px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--white-50)' }}><SocialIcon type={s as any} /></a>
+                  <a key={s} href="#" className="glass interactive" style={{ width: '38px', height: '38px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--white-soft)' }}><SocialIcon type={s as any} /></a>
                 ))}
               </div>
             </div>
 
             <div>
-              <h4 style={{ fontWeight: 700, marginBottom: '0.9rem', color: 'var(--accent-2-bright)', fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '1.5px' }}>Servicios</h4>
+              <h4 style={{ fontWeight: 800, marginBottom: '1rem', color: 'var(--accent-2-bright)', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '2px' }}>Servicios</h4>
               {servicios.slice(0, 5).map(s => (
                 <a key={s.id} href="#servicios" onClick={e => { e.preventDefault(); scrollTo('#servicios'); }}
-                  style={{ display: 'block', color: 'var(--white-50)', fontSize: '0.82rem', marginBottom: '0.5rem', textDecoration: 'none' }}
+                  style={{ display: 'block', color: 'var(--white-soft)', fontSize: '0.85rem', marginBottom: '0.55rem', textDecoration: 'none', fontWeight: 500, transition: 'color 0.25s ease' }}
+                  onMouseEnter={e => e.currentTarget.style.color = 'var(--white-pure)'}
+                  onMouseLeave={e => e.currentTarget.style.color = 'var(--white-soft)'}
                 >{s.icon} {s.name}</a>
               ))}
             </div>
 
             <div>
-              <h4 style={{ fontWeight: 700, marginBottom: '0.9rem', color: 'var(--accent-2-bright)', fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '1.5px' }}>Empresa</h4>
+              <h4 style={{ fontWeight: 800, marginBottom: '1rem', color: 'var(--accent-2-bright)', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '2px' }}>Empresa</h4>
               {['Sobre Nosotros', 'Portfolio', 'Proceso', 'Testimonios', 'Contacto'].map((l, i) => (
                 <a key={l} href={`#${['esencia', 'portafolio', 'metodologia', 'testimonios', 'contacto'][i]}`} onClick={e => { e.preventDefault(); scrollTo(`#${['esencia', 'portafolio', 'metodologia', 'testimonios', 'contacto'][i]}`); }}
-                  style={{ display: 'block', color: 'var(--white-50)', fontSize: '0.82rem', marginBottom: '0.5rem', textDecoration: 'none' }}
+                  style={{ display: 'block', color: 'var(--white-soft)', fontSize: '0.85rem', marginBottom: '0.55rem', textDecoration: 'none', fontWeight: 500, transition: 'color 0.25s ease' }}
+                  onMouseEnter={e => e.currentTarget.style.color = 'var(--white-pure)'}
+                  onMouseLeave={e => e.currentTarget.style.color = 'var(--white-soft)'}
                 >{l}</a>
               ))}
             </div>
 
             <div>
-              <h4 style={{ fontWeight: 700, marginBottom: '0.9rem', color: 'var(--accent-2-bright)', fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '1.5px' }}>Legal</h4>
+              <h4 style={{ fontWeight: 800, marginBottom: '1rem', color: 'var(--accent-2-bright)', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '2px' }}>Legal</h4>
               {['Privacidad', 'Términos', 'Cookies'].map(l => (
-                <a key={l} href="#" style={{ display: 'block', color: 'var(--white-50)', fontSize: '0.82rem', marginBottom: '0.5rem', textDecoration: 'none' }}>{l}</a>
+                <a key={l} href="#" style={{ display: 'block', color: 'var(--white-soft)', fontSize: '0.85rem', marginBottom: '0.55rem', textDecoration: 'none', fontWeight: 500, transition: 'color 0.25s ease' }}
+                  onMouseEnter={e => e.currentTarget.style.color = 'var(--white-pure)'}
+                  onMouseLeave={e => e.currentTarget.style.color = 'var(--white-soft)'}
+                >{l}</a>
               ))}
-              <div className="glass" style={{ marginTop: '0.7rem', padding: '0.6rem', borderRadius: '8px', fontSize: '0.7rem', color: 'var(--white-50)' }}>
+              <div className="glass" style={{ marginTop: '0.8rem', padding: '0.65rem', borderRadius: '10px', fontSize: '0.72rem', color: 'var(--white-soft)', fontWeight: 600 }}>
                 🛡️ RGPD & LSSI-CE
               </div>
             </div>
           </div>
 
-          <div style={{ borderTop: '1px solid var(--border)', paddingTop: '1.5rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '0.9rem', marginBottom: '0.9rem' }}>
+          <div style={{ borderTop: '1px solid var(--border)', paddingTop: '1.6rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginBottom: '1rem' }}>
               {[
                 { icon: '🔒', text: 'SSL', color: 'var(--green-bright)' },
                 { icon: '✅', text: 'RGPD', color: 'var(--accent-bright)' },
                 { icon: '💳', text: 'Stripe', color: 'var(--accent-3-bright)' },
               ].map((b, i) => (
-                <span key={i} className="glass" style={{ padding: '0.45rem 0.9rem', borderRadius: '100px', fontSize: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--white-80)' }}>
+                <span key={i} className="glass" style={{ padding: '0.5rem 0.95rem', borderRadius: '100px', fontSize: '0.78rem', display: 'flex', alignItems: 'center', gap: '0.38rem', color: 'var(--white-pure)', fontWeight: 600 }}>
                   <span>{b.icon}</span>
-                  <span style={{ color: b.color, fontWeight: 600 }}>{b.text}</span>
+                  <span style={{ color: b.color }}>{b.text}</span>
                 </span>
               ))}
             </div>
 
-            <p style={{ textAlign: 'center', fontSize: '0.78rem', color: 'var(--white-50)' }}>
-              © {new Date().getFullYear()} <span style={{ color: 'var(--accent-2-bright)' }}>InterConectadosWeb.es</span> — Todos los derechos reservados
+            <p style={{ textAlign: 'center', fontSize: '0.8rem', color: 'var(--white-soft)', fontWeight: 500 }}>
+              © {new Date().getFullYear()} <span style={{ color: 'var(--accent-2-bright)', fontWeight: 700 }}>InterConectadosWeb.es</span> — Todos los derechos reservados
             </p>
           </div>
         </div>
 
         <style>{`
-          @media (max-width: 900px) { .footer-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 1.5rem; } }
+          @media (max-width: 900px) { .footer-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 1.75rem; } }
           @media (max-width: 600px) { .footer-grid { grid-template-columns: 1fr !important; text-align: center; } .footer-grid > div:first-child > div:last-child { justify-content: center; } }
         `}</style>
       </footer>
