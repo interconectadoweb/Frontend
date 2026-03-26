@@ -751,7 +751,7 @@ function App() {
                     boxShadow: '0 0 12px var(--green)', 
                     animation: 'pulse 2s infinite' 
                   }} />
-                  <span style={{ color: 'var(--white-pure)' }}>🇪🇸 Agencia Digital Premium en España, Expertos en Desarrollo Web, Apps y Tiendas Online.</span>
+                  <span style={{ color: 'var(--white-pure)' }}>🇪🇸 Agencia Digital Premium en España, Expertos en Desarrollo Web, Apps y Tiendas Online.🇪🇸 </span>
                 </div>
               </div>
 
