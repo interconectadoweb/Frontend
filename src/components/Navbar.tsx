@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { SEO_CONFIG } from '../data/content'; 
+// import { SEO_CONFIG } from '../data/content'; 
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -19,7 +19,7 @@ export default function Navbar() {
     { label: 'Contacto', href: '#contacto' },
   ];
 
-  const scrollTo = (href: string) => {
+  const scrollTo = (href) => {
     const el = document.querySelector(href);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
     setMenuOpen(false);
@@ -32,12 +32,10 @@ export default function Navbar() {
     bgDark: '#030014'  
   };
 
-  // Estrellas con resplandor neón tenue
+  // Base para las estrellas, el resplandor real se maneja en el CSS
   const starGlowStyle = {
     color: colors.yellow,
     fontSize: '1.2rem',
-    filter: 'drop-shadow(0 0 4px rgba(255, 193, 7, 0.6))',
-    textShadow: '0 0 8px rgba(255, 193, 7, 0.3)'
   };
 
   return (
@@ -52,7 +50,7 @@ export default function Navbar() {
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       }}>
         
-        {/* -- BLOQUE IZQUIERDO: Logo (1.2rem) -- */}
+        {/* -- BLOQUE IZQUIERDO: Logo -- */}
         <div style={{ flex: '1 1 0%', display: 'flex', justifyContent: 'flex-start' }}>
           <a
             href="#inicio"
@@ -66,7 +64,7 @@ export default function Navbar() {
               border: '1px solid rgba(255,255,255,0.05)'
             }}
           >
-            <span style={starGlowStyle}>★</span>
+            <span style={starGlowStyle} className="animated-star">★</span>
             <span style={{
               fontSize: '1.2rem', fontWeight: 800,
               letterSpacing: '-0.3px', fontFamily: 'system-ui, sans-serif'
@@ -75,7 +73,7 @@ export default function Navbar() {
               <span style={{ color: colors.cyan }}>ConectadosWeb</span>
               <span style={{ color: colors.white }}>.es</span>
             </span>
-            <span style={starGlowStyle}>★</span>
+            <span style={starGlowStyle} className="animated-star">★</span>
           </a>
         </div>
 
@@ -107,7 +105,7 @@ export default function Navbar() {
         {/* -- BLOQUE DERECHO: Acciones -- */}
         <div style={{ flex: '1 1 0%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '1rem' }}>
           
-          {/* Botón: Iniciar Propuesta - Redirige a Contacto y es un punto más pequeño (1.1rem) */}
+          {/* Botón: Iniciar Propuesta */}
           <a
             href="#contacto"
             onClick={e => { e.preventDefault(); scrollTo('#contacto'); }}
@@ -124,12 +122,12 @@ export default function Navbar() {
             }}
             className="nav-cta-desktop logo-button-hover"
           >
-            <span style={{...starGlowStyle, fontSize: '1.1rem'}}>★</span>
+            <span style={{...starGlowStyle, fontSize: '1.1rem'}} className="animated-star">★</span>
             <span style={{ fontFamily: 'system-ui, sans-serif' }}>
               <span style={{ color: colors.yellow }}>Iniciar</span>{' '}
               <span style={{ color: colors.cyan }}>Propuesta</span>
             </span>
-            <span style={{...starGlowStyle, fontSize: '1.1rem'}}>★</span>
+            <span style={{...starGlowStyle, fontSize: '1.1rem'}} className="animated-star">★</span>
           </a>
 
           {/* Botón Hamburger (Móvil) */}
@@ -140,7 +138,8 @@ export default function Navbar() {
               background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)',
               borderRadius: '12px', padding: '0.6rem',
               color: 'white', cursor: 'pointer', fontSize: '1.2rem',
-              display: 'none', transition: '0.2s'
+              display: 'none', transition: '0.2s',
+              zIndex: 9999 /* Asegura que la X quede por encima del menú desplegado */
             }}
           >
             {menuOpen ? '✕' : '☰'}
@@ -166,7 +165,9 @@ export default function Navbar() {
                 color: colors.white, 
                 textDecoration: 'none',
                 fontWeight: 600, fontSize: '1.5rem',
+                transition: 'all 0.3s ease'
               }}
+              className="mobile-nav-link"
             >
               {link.label}
             </a>
@@ -184,18 +185,15 @@ export default function Navbar() {
               display: 'flex', alignItems: 'center', gap: '0.5rem'
             }}
           >
-            <span style={starGlowStyle}>★</span>
+            <span style={starGlowStyle} className="animated-star">★</span>
             <span>
               <span style={{ color: colors.yellow }}>Iniciar</span>{' '}
               <span style={{ color: colors.cyan }}>Propuesta</span>
             </span>
-            <span style={starGlowStyle}>★</span>
+            <span style={starGlowStyle} className="animated-star">★</span>
           </a>
 
-          <button 
-            onClick={() => setMenuOpen(false)}
-            style={{ position: 'absolute', top: '2rem', right: '2rem', background: 'none', border: 'none', color: 'white', fontSize: '2rem', cursor: 'pointer' }}
-          >✕</button>
+          {/* Se eliminó el botón de cierre duplicado que estaba aquí */}
         </div>
       )}
 
@@ -210,18 +208,46 @@ export default function Navbar() {
           .nav-cta-desktop { display: none !important; }
           .nav-hamburger { display: block !important; }
         }
+        
         .nav-link-item:hover {
           background: rgba(255, 255, 255, 0.05);
           transform: translateY(-2px);
+          color: #00D8D8 !important; /* Color cyan al pasar el cursor */
         }
+        
+        .mobile-nav-link:hover {
+          color: #00D8D8 !important;
+          text-shadow: 0 0 8px rgba(0, 216, 216, 0.4);
+        }
+
         .logo-button-hover:hover {
           transform: scale(1.03);
           background: rgba(15, 23, 42, 0.7) !important;
           box-shadow: 0 0 15px rgba(255, 193, 7, 0.2) !important;
         }
+
         @keyframes fadeIn {
           from { opacity: 0; }
           to { opacity: 1; }
+        }
+
+        /* --- Animación de resplandor para las estrellas --- */
+        @keyframes pulseGlow {
+          0%, 100% { 
+            filter: drop-shadow(0 0 4px rgba(255, 193, 7, 0.6));
+            text-shadow: 0 0 8px rgba(255, 193, 7, 0.3);
+            transform: scale(1);
+          }
+          50% { 
+            filter: drop-shadow(0 0 8px rgba(255, 193, 7, 0.9));
+            text-shadow: 0 0 15px rgba(255, 193, 7, 0.8);
+            transform: scale(1.15); /* Crece ligeramente */
+          }
+        }
+        
+        .animated-star {
+          display: inline-block;
+          animation: pulseGlow 2.5s infinite ease-in-out;
         }
       `}</style>
     </>
