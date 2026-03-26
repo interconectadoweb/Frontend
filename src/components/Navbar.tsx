@@ -29,7 +29,8 @@ export default function Navbar() {
     yellow: '#FFC107', 
     cyan: '#00D8D8',   
     white: '#FFFFFF',  
-    bgDark: '#030014'  
+    bgDark: '#030014',
+    lime: '#39FF14' // Verde limón brillante puro
   };
 
   // Base para las estrellas, el resplandor real se maneja en el CSS
@@ -70,7 +71,8 @@ export default function Navbar() {
               letterSpacing: '-0.3px', fontFamily: 'system-ui, sans-serif'
             }}>
               <span style={{ color: colors.yellow }}>Inter</span>
-              <span style={{ color: colors.cyan }}>ConectadosWeb</span>
+              <span style={{ color: colors.cyan }}>Conectados</span>
+              <span style={{ color: colors.lime }}>Web</span>
               <span style={{ color: colors.white }}>.es</span>
             </span>
             <span style={starGlowStyle} className="animated-star">★</span>
@@ -192,8 +194,6 @@ export default function Navbar() {
             </span>
             <span style={starGlowStyle} className="animated-star">★</span>
           </a>
-
-          {/* Se eliminó el botón de cierre duplicado que estaba aquí */}
         </div>
       )}
 
