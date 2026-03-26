@@ -81,7 +81,7 @@ const translations: Record<string, Record<Language, string>> = {
     fr: 'Prix clairs. Sans surprises. Résultats garantis dès le jour 1.',
   },
   btn_start: { es: 'Comenzar', en: 'Start', pt: 'Começar', fr: 'Commencer' },
-  btn_info: { es: 'Más Info', en: 'More Info', pt: 'Mais Info', fr: 'Plus d\'Infos' },
+  btn_expert: { es: 'Hablar con un Experto', en: 'Talk to an Expert', pt: 'Falar com um Especialista', fr: 'Parler à un Expert' },
   secure_pay: { es: 'Pago 100% seguro con Stripe', en: '100% secure payment with Stripe', pt: 'Pagamento 100% seguro com Stripe', fr: 'Paiement 100% sécurisé avec Stripe' },
   processing: { es: 'Procesando...', en: 'Processing...', pt: 'Processando...', fr: 'Traitement...' },
   
@@ -118,7 +118,7 @@ const translations: Record<string, Record<Language, string>> = {
   proceso_sub: {
     es: '5 pasos claros para llevar tu proyecto del concepto al lanzamiento.',
     en: '5 clear steps to take your project from concept to launch.',
-    pt: '5 passos claros para levar seu projeto do conceito ao lançamento.',
+    pt: '5 passos claros para levar seu projeto do concepto ao lançamento.',
     fr: '5 étapes claires pour mener votre projet du concept au lancement.',
   },
   
@@ -285,6 +285,38 @@ const useLang = () => {
   const ctx = useContext(LangContext);
   if (!ctx) throw new Error('useLang must be used within LangProvider');
   return ctx;
+};
+
+// ============================================
+// ACTUALIZAR FAVICON CON ESTRELLA
+// ============================================
+const updateFavicon = () => {
+  // Crear SVG de estrella
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+      <defs>
+        <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#FF8C00;stop-opacity:1" />
+        </linearGradient>
+      </defs>
+      <path d="M16 2l4 12h12l-10 8 4 12-10-8-10 8 4-12-10-8h12z" fill="url(#grad)"/>
+    </svg>
+  `;
+  
+  const blob = new Blob([svg], { type: 'image/svg+xml' });
+  const url = URL.createObjectURL(blob);
+  
+  let link = document.querySelector("link[rel*='icon']") as HTMLLinkElement;
+  if (!link) {
+    link = document.createElement('link');
+    link.rel = 'icon';
+    document.head.appendChild(link);
+  }
+  link.href = url;
+  
+  // Actualizar título
+  document.title = '⭐ InterConectadosWeb - Agencia Digital Premium';
 };
 
 // ============================================
@@ -513,12 +545,13 @@ const globalStyles = `
   @media (max-width: 1024px) {
     .grid-3 { grid-template-columns: repeat(2, 1fr); }
     .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    .section { padding: 3rem 0; }
   }
 
   @media (max-width: 768px) {
-    .section { padding: 3rem 0; }
     .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
     .container { padding: 0 1rem; }
+    .section { padding: 2.5rem 0; }
   }
 
   .preloader {
@@ -705,6 +738,10 @@ function AppInner() {
     s.textContent = globalStyles;
     document.head.prepend(s);
     document.body.style.overflow = 'hidden';
+    
+    // Actualizar favicon
+    updateFavicon();
+    
     return () => { document.getElementById('styles')?.remove(); };
   }, []);
 
@@ -786,7 +823,7 @@ function AppInner() {
       <WhatsAppFloat />
 
       {/* ═══════════════════════════════════════════════════════════════════════════════
-          ███████╗ HERO COMPLETAMENTE NUEVO - DISEÑO IMPACTANTE ███████╗
+          ███████╗ HERO OPTIMIZADO PARA MÓVILES ███████╗
           ═══════════════════════════════════════════════════════════════════════════════ */}
       <section id="inicio" style={{ 
         minHeight: '100vh', 
@@ -794,7 +831,7 @@ function AppInner() {
         alignItems: 'center', 
         position: 'relative', 
         overflow: 'hidden',
-        paddingTop: '5rem'
+        paddingTop: '80px'
       }}>
         {/* ===== FONDO DINÁMICO CON GRADIENTES Y FORMAS ===== */}
         <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
@@ -879,7 +916,7 @@ function AppInner() {
             gridTemplateColumns: '1fr 1fr', 
             gap: '4rem', 
             alignItems: 'center',
-            minHeight: '80vh'
+            minHeight: 'calc(100vh - 160px)'
           }}>
             {/* ===== COLUMNA IZQUIERDA - CONTENIDO ===== */}
             <div style={{ animation: 'slideInLeft 0.8s ease' }}>
@@ -910,7 +947,7 @@ function AppInner() {
               {/* Título principal */}
               <h1 style={{ 
                 fontFamily: 'Space Grotesk', 
-                fontSize: 'clamp(2.5rem, 5vw, 4rem)', 
+                fontSize: 'clamp(2rem, 5vw, 4rem)', 
                 fontWeight: 800, 
                 lineHeight: 1.1, 
                 marginBottom: '1.5rem',
@@ -929,7 +966,7 @@ function AppInner() {
 
               {/* Subtítulo */}
               <p style={{ 
-                fontSize: '1.1rem', 
+                fontSize: 'clamp(0.95rem, 2vw, 1.1rem)', 
                 color: 'var(--white-70)', 
                 marginBottom: '2rem', 
                 maxWidth: '500px',
@@ -948,12 +985,12 @@ function AppInner() {
                 animation: 'slideInUp 0.6s ease 0.5s both'
               }}>
                 <button onClick={() => scrollTo('#servicios')} className="btn btn-primary btn-lg" style={{ 
-                  fontSize: '1rem',
+                  fontSize: 'clamp(0.9rem, 2vw, 1rem)',
                   boxShadow: '0 0 30px rgba(59,130,246,0.4)',
                 }}>
                   🚀 {t('cta_services')}
                 </button>
-                <button onClick={() => scrollTo('#contacto')} className="btn btn-secondary btn-lg" style={{ fontSize: '1rem' }}>
+                <button onClick={() => scrollTo('#contacto')} className="btn btn-secondary btn-lg" style={{ fontSize: 'clamp(0.9rem, 2vw, 1rem)' }}>
                   💬 {t('cta_contact')}
                 </button>
               </div>
@@ -974,7 +1011,7 @@ function AppInner() {
                     display: 'flex', 
                     alignItems: 'center', 
                     gap: '0.5rem',
-                    fontSize: '0.85rem',
+                    fontSize: 'clamp(0.75rem, 1.5vw, 0.85rem)',
                     color: 'var(--white-70)',
                     animation: `fadeIn 0.4s ease ${0.8 + i * 0.1}s both`
                   }}>
@@ -997,7 +1034,7 @@ function AppInner() {
             {/* ===== COLUMNA DERECHA - COMPOSICIÓN VISUAL ===== */}
             <div style={{ 
               position: 'relative', 
-              height: '600px',
+              height: 'clamp(400px, 50vh, 600px)',
               animation: 'slideInRight 0.8s ease 0.3s both'
             }}>
               {/* Mockup principal - Laptop */}
@@ -1060,7 +1097,7 @@ function AppInner() {
               {/* ===== BANNERS FLOTANTES ===== */}
               
               {/* Banner 1 - Stats */}
-              <div style={{
+              <div className="hero-float-1" style={{
                 position: 'absolute',
                 top: '5%',
                 left: '-5%',
@@ -1094,7 +1131,7 @@ function AppInner() {
               </div>
 
               {/* Banner 2 - Rating */}
-              <div style={{
+              <div className="hero-float-2" style={{
                 position: 'absolute',
                 top: '15%',
                 right: '-10%',
@@ -1117,7 +1154,7 @@ function AppInner() {
               </div>
 
               {/* Banner 3 - Live indicator */}
-              <div style={{
+              <div className="hero-float-3" style={{
                 position: 'absolute',
                 bottom: '25%',
                 left: '-8%',
@@ -1146,7 +1183,7 @@ function AppInner() {
               </div>
 
               {/* Banner 4 - Tech stack */}
-              <div style={{
+              <div className="hero-float-4" style={{
                 position: 'absolute',
                 bottom: '10%',
                 right: '0%',
@@ -1177,7 +1214,7 @@ function AppInner() {
               </div>
 
               {/* Banner 5 - Conversión */}
-              <div style={{
+              <div className="hero-float-5" style={{
                 position: 'absolute',
                 top: '40%',
                 right: '-15%',
@@ -1235,7 +1272,7 @@ function AppInner() {
           </div>
 
           {/* Scroll indicator */}
-          <div style={{ 
+          <div className="scroll-indicator" style={{ 
             position: 'absolute', 
             bottom: '2rem', 
             left: '50%', 
@@ -1276,41 +1313,59 @@ function AppInner() {
         {/* Responsive styles para Hero */}
         <style>{`
           @media (max-width: 1024px) {
+            #inicio {
+              padding-top: 60px !important;
+            }
             #inicio .container > div {
               grid-template-columns: 1fr !important;
               text-align: center;
-              gap: 3rem !important;
+              gap: 2rem !important;
+              min-height: auto !important;
+              padding: 2rem 0 !important;
             }
             #inicio .container > div > div:first-child {
               order: 1;
             }
-            #inicio .container > div > div:first-child > div:last-child {
+            #inicio .container > div > div:first-child > div:nth-child(1),
+            #inicio .container > div > div:first-child > div:nth-child(2),
+            #inicio .container > div > div:first-child > div:nth-child(3),
+            #inicio .container > div > div:first-child > div:nth-child(4) {
+              display: flex;
+              justify-content: center;
+            }
+            #inicio .container > div > div:first-child > div:nth-child(5) {
               justify-content: center;
             }
             #inicio .container > div > div:last-child {
               order: 0;
-              height: 400px !important;
+              height: 300px !important;
+              margin-bottom: 1rem;
             }
             #inicio .container > div > div:last-child > div:first-child {
-              width: 80% !important;
+              width: 85% !important;
             }
-            #inicio .container > div > div:last-child > div:nth-child(2),
-            #inicio .container > div > div:last-child > div:nth-child(3),
-            #inicio .container > div > div:last-child > div:nth-child(4),
-            #inicio .container > div > div:last-child > div:nth-child(5),
-            #inicio .container > div > div:last-child > div:nth-child(6) {
-              display: none;
+            .hero-float-1, .hero-float-2, .hero-float-3, .hero-float-4, .hero-float-5 {
+              display: none !important;
+            }
+            .scroll-indicator {
+              display: none !important;
             }
           }
           @media (max-width: 600px) {
+            #inicio {
+              padding-top: 50px !important;
+            }
+            #inicio .container > div {
+              padding: 1.5rem 0 !important;
+            }
             #inicio .container > div > div:last-child {
-              height: 280px !important;
+              height: 250px !important;
             }
           }
         `}</style>
       </section>
 
-      {/* ═══════════════ RESTO DE SECCIONES (SIN CAMBIOS) ═══════════════ */}
+      {/* ═══════════════ RESTO DE SECCIONES (RESTO DEL CÓDIGO IDÉNTICO) ═══════════════ */}
 
       {/* ESENCIA */}
       <section className="section" id="esencia">
@@ -1509,13 +1564,15 @@ function AppInner() {
                       )}
                     </button>
                     
-                    <button 
-                      onClick={() => addItem(s)} 
+                    <a 
+                      href={`https://wa.me/${SEO_CONFIG.whatsapp}?text=${encodeURIComponent(`Hola! Necesito información sobre el servicio "${s.name}"`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="btn btn-secondary btn-block"
-                      style={{ fontSize: '0.85rem', padding: '0.6rem' }}
+                      style={{ fontSize: '0.85rem', padding: '0.6rem', textDecoration: 'none' }}
                     >
-                      ℹ️ {t('btn_info')}
-                    </button>
+                      💬 {t('btn_expert')}
+                    </a>
                   </div>
 
                   <p style={{ 
@@ -1558,6 +1615,9 @@ function AppInner() {
           </div>
         </div>
       </section>
+
+      {/* EL RESTO DEL CÓDIGO PERMANECE EXACTAMENTE IGUAL... */}
+      {/* Copio aquí las secciones restantes sin cambios: */}
 
       {/* PORTFOLIO */}
       <section className="section" id="portafolio">
