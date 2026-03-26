@@ -930,7 +930,7 @@ function App() {
                       textAlign: 'center'
                     }}>
                       <div style={{ fontSize: '0.62rem', color: 'var(--white-soft)', marginBottom: '0.15rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Conversión</div>
-                      <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--accent-3-bright)', fontFamily: 'Space Grotesk' }}>+340%</div>
+                      <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--accent-3-bright)', fontFamily: 'Space Grotesk' }}>+180%</div>
                       <div style={{ fontSize: '0.62rem', color: 'var(--green-bright)', fontWeight: 700 }}>↑ vs promedio</div>
                     </div>
                   </div>
@@ -1185,7 +1185,7 @@ function App() {
       <section className="section" id="portafolio">
         <div className="container">
           <div className="section-header">
-            <div className="section-tag">🎨 Portfolio</div>
+            <div className="section-tag">🎨 Portafolio</div>
             <h2 className="section-title"><span className="gradient-text">Proyectos Destacados</span></h2>
             <p className="section-sub">Cada proyecto es una <strong>historia de éxito</strong>.</p>
           </div>
