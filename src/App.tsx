@@ -895,7 +895,7 @@ function App() {
                         justifyContent: 'center', fontSize: '1.1rem'
                       }}>📈</div>
                       <div>
-                        <div className="gradient-text" style={{ fontSize: '1.25rem', fontWeight: 800, fontFamily: 'Space Grotesk' }}>+150</div>
+                        <div className="gradient-text" style={{ fontSize: '1.25rem', fontWeight: 800, fontFamily: 'Space Grotesk' }}>+160</div>
                         <div style={{ fontSize: '0.68rem', color: 'var(--white-soft)', fontWeight: 600 }}>Proyectos</div>
                       </div>
                     </div>
