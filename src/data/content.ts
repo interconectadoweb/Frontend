@@ -220,11 +220,11 @@ export const servicios: Servicio[] = [
 // ESTADÍSTICAS
 // ============================================
 export const stats = [
-  { number: '100+', label: 'Proyectos Entregados', icon: '📊' },
+  { number: '160+', label: 'Proyectos Entregados', icon: '📊' },
   { number: '150+', label: 'Clientes Felices', icon: '😊' },
   { number: '5+', label: 'Años de Experiencia', icon: '⏰' },
   { number: '4.9', label: 'Calificación Media', icon: '⭐' },
-  { number: '200%', label: 'ROI Promedio', icon: '📈' },
+  { number: '180%', label: 'ROI Promedio', icon: '📈' },
   { number: '30', label: 'Días de Garantía', icon: '🛡️' },
 ];
 
