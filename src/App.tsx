@@ -767,7 +767,7 @@ function App() {
               }}>
                 <span style={{ color: 'var(--white-pure)' }}>Creamos </span>
                 <span className="gradient-text">Experiencias Digitales</span>
-                <span style={{ color: 'var(--gold-bright)' }}> Únicas</span>
+                <span style={{ color: '#39FF14' }}> Únicas</span>
               </h1>
 
               {/* Subtítulo */}
