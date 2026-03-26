@@ -751,7 +751,7 @@ function App() {
                     boxShadow: '0 0 12px var(--green)', 
                     animation: 'pulse 2s infinite' 
                   }} />
-                  <span style={{ color: 'var(--white-pure)' }}>🇪🇸 Agencia Digital Premium en España, Expertos en desarrollo.</span>
+                  <span style={{ color: 'var(--white-pure)' }}>🇪🇸 Agencia Digital Premium en España, Expertos en Desarrollo Web, Apps y Tiendas Online.</span>
                 </div>
               </div>
 
@@ -781,7 +781,7 @@ function App() {
                 fontWeight: 500
               }}>
                 Transformamos tu visión en una <strong style={{ color: 'var(--white-pure)' }}>web que convierte</strong>. 
-                Diseño premium con <span style={{ color: 'var(--green-bright)', fontWeight: 700 }}>resultados garantizados</span> desde <span style={{ color: 'var(--gold-bright)', fontWeight: 800 }}>€299</span>.
+                Diseño premium con <span style={{ color: 'var(--green-bright)', fontWeight: 700 }}>resultados garantizados</span> desde <span style={{ color: '#00FFFF', fontWeight: 800 }}>€299</span>.
               </p>
 
               {/* CTAs */}
