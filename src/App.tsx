@@ -803,7 +803,7 @@ function App() {
                 animation: 'fadeIn 0.7s var(--ease-smooth) 0.6s both'
               }}>
                 {[
-                  { icon: '📊', text: '+150 Proyectos', color: 'var(--accent-bright)' },
+                  { icon: '📊', text: '+160 Proyectos', color: 'var(--accent-bright)' },
                   { icon: '🛡️', text: 'Garantía 100%', color: 'var(--green-bright)' },
                   { icon: '⚡', text: 'Soporte 24/7', color: 'var(--gold-bright)' },
                 ].map((f, i) => (
