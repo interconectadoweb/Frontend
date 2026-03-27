@@ -117,7 +117,7 @@ export const servicios: Servicio[] = [
       'Diseño responsive premium',
       'Formulario de contacto avanzado',
       'SEO básico incluido',
-      'Hosting 1 año gratis',
+      'Botón Flotante Whatsapp y Redes',
       'Velocidad optimizada (PageSpeed 90+)',
       'Integración Google Analytics',
     ],
@@ -148,7 +148,7 @@ export const servicios: Servicio[] = [
     price: 799,
     desc: 'E-commerce completo con gestión de productos, pagos y panel administrador.',
     features: [
-      'Hasta 100 productos',
+      'Hasta 50 productos',
       'Pasarela de pagos Stripe',
       'Panel admin intuitivo',
       'Soporte 3 meses incluido',
@@ -185,7 +185,7 @@ export const servicios: Servicio[] = [
     suffix: '/año',
     desc: 'Alta velocidad con SSD, backups automáticos y seguridad SSL premium incluida.',
     features: [
-      'SSD 5TB ultrarrápido',
+      'SSD 500GB ultrarrápido',
       'SSL gratuito premium',
       'Backups diarios automáticos',
       'Soporte técnico 24/7',
